@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 11:45:03 PAGE 1   
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 12:54:07 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE INITDEVICE
@@ -63,7 +63,7 @@ line level    source
   48          //================================================================================
   49          extern void WDT_0_enter_DefaultMode_from_RESET(void) {
   50   1              // $[WDTCN - Watchdog Timer Control]
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 11:45:03 PAGE 2   
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 12:54:07 PAGE 2   
 
   51   1              //Disable Watchdog with key sequence
   52   1              WDTCN = 0xDE; //First key
@@ -128,7 +128,7 @@ line level    source
  111          //================================================================================
  112          extern void PBCFG_0_enter_DefaultMode_from_RESET(void) {
  113   1              // $[XBR2 - Port I/O Crossbar 2]
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 11:45:03 PAGE 3   
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 12:54:07 PAGE 3   
 
  114   1              /*
  115   1              // WEAKPUD (Port I/O Weak Pullup Disable) = PULL_UPS_ENABLED (Weak
@@ -193,7 +193,7 @@ line level    source
  174   1              //     byte uses the clock defined by T2XCLK in TMR2CN0.)
  175   1              // T2ML (Timer 2 Low Byte Clock Select) = EXTERNAL_CLOCK (Timer 2 low
  176   1              //     byte uses the clock defined by T2XCLK in TMR2CN0.)
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 11:45:03 PAGE 4   
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 12:54:07 PAGE 4   
 
  177   1              // T3MH (Timer 3 High Byte Clock Select) = EXTERNAL_CLOCK (Timer 3 high
  178   1              //     byte uses the clock defined by T3XCLK in TMR3CN0.)
@@ -258,7 +258,7 @@ line level    source
  237   1              // [EIP2 - Extended Interrupt Priority 2]$
  238   1      
  239   1              // $[EIP2H - Extended Interrupt Priority 2 High]
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 11:45:03 PAGE 5   
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 12:54:07 PAGE 5   
 
  240   1              // [EIP2H - Extended Interrupt Priority 2 High]$
  241   1      

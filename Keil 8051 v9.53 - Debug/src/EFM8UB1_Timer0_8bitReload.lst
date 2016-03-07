@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 12:41:13 PAGE 1   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 12:54:07 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE EFM8UB1_TIMER0_8BITRELOAD
@@ -63,7 +63,7 @@ line level    source
   48          //-----------------------------------------------------------------------------
   49          // Pin Definitions
   50          //-----------------------------------------------------------------------------
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 12:41:13 PAGE 2   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 12:54:07 PAGE 2   
 
   51          
   52          #define DISP_BC_DRIVEN   0             // 0 = Board Controller drives display

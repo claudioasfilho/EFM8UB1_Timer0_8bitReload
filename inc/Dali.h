@@ -51,7 +51,7 @@ SI_SBIT (DISP_EN, SFR_P2, 3);          // Display Enable
 
 SI_SBIT (PB0_SW,SFR_P0, 2);			   //PB0 Switch Definition
 SI_SBIT (DALI_OUT, SFR_P0, 0);		   //Dali Output Pin
-SI_SBIT (DALI_IN, SFR_P0, 3);		   //Dali Input Pin
+SI_SBIT (DALI_IN, SFR_P0, 7);		   //Dali Input Pin
 
 
 /* Manchester Encoder Methods */
