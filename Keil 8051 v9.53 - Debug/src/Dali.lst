@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 11:44:20 PAGE 1   
+C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 12:35:21 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE DALI
@@ -63,7 +63,7 @@ line level    source
   48          
   49          
   50          bit MDone;
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 11:44:20 PAGE 2   
+C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 12:35:21 PAGE 2   
 
   51          bit MOutput;
   52          bit DaliStopFlag;
@@ -116,11 +116,11 @@ line level    source
   99          {
  100   1              static BITS_BYTE Input;
  101   1      
- 102   1              static int8_t counter = 7;
+ 102   1              static int8_t counter = 8;
  103   1      
  104   1              ClearBusyFlag();
  105   1      
- 106   1              if (counter==7)
+ 106   1              if (counter==8)
  107   1              {
  108   2                      Input.Abyte = input;
  109   2              }
@@ -128,333 +128,344 @@ line level    source
  111   1              while (counter>=0)
  112   1              {
  113   2                      while(GetBusyFlag()==1);
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 11:44:20 PAGE 3   
+C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 12:35:21 PAGE 3   
 
  114   2      
  115   2                      if (GetBusyFlag()==0)
  116   2                      {
- 117   3                              switch (counter){
+ 117   3                              switch (counter--){
  118   4      
- 119   4                                                              case 0: MOutput = Input.nybble.BB0;
+ 119   4                                                              case 0: //SetBusyFlag();
  120   4                                                              break;
- 121   4                                                              case 1: MOutput = Input.nybble.BB1;
- 122   4                                                              break;
- 123   4                                                              case 2: MOutput = Input.nybble.BB2;
- 124   4                                                              break;
- 125   4                                                              case 3: MOutput = Input.nybble.BB3;
+ 121   4                                                              case 1: MOutput = Input.nybble.BB0;
+ 122   4                                                              SetBusyFlag();
+ 123   4                                                              break;
+ 124   4                                                              case 2: MOutput = Input.nybble.BB1;
+ 125   4                                                              SetBusyFlag();
  126   4                                                              break;
- 127   4                                                              case 4: MOutput = Input.nybble.BB4;
- 128   4                                                              break;
- 129   4                                                              case 5: MOutput = Input.nybble.BB5;
- 130   4                                                              break;
- 131   4                                                              case 6: MOutput = Input.nybble.BB6;
+ 127   4                                                              case 3: MOutput = Input.nybble.BB2;
+ 128   4                                                              SetBusyFlag();
+ 129   4                                                              break;
+ 130   4                                                              case 4: MOutput = Input.nybble.BB3;
+ 131   4                                                              SetBusyFlag();
  132   4                                                              break;
- 133   4                                                              case 7: MOutput = Input.nybble.BB7;
- 134   4                                                              break;
- 135   4                                      }
- 136   3      
- 137   3                              if (counter-->=0)       SetBusyFlag();
- 138   3      
- 139   3      
- 140   3                      }
- 141   2      
- 142   2              }
- 143   1      
- 144   1              counter=7;
- 145   1      
- 146   1      }
- 147          
- 148          /*********************************************************************************
- 149           *********************************************************************************
- 150                                                   Dali TX Related Functions
- 151           *********************************************************************************
- 152           *********************************************************************************/
- 153          
- 154          
- 155          void ReloadDaliTxTimer(uint8_t reloadH, uint8_t reloadL)
- 156          {
- 157   1              TH0 = reloadH;
- 158   1              TL0 = reloadL;
- 159   1      }
- 160          
- 161          
- 162          void StartDaliTxTimer()
- 163          {
- 164   1      
- 165   1              TCON |= TCON_TR0__RUN;          //Enables Timer 1 Run
- 166   1      }
- 167          
- 168          
- 169          uint16_t GetDaliTxTimer()
- 170          {
- 171   1              return TH0|TL0;
- 172   1      }
- 173          
- 174          
- 175          void StopDaliTxTimer()
- 176          {
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 11:44:20 PAGE 4   
+ 133   4                                                              case 5: MOutput = Input.nybble.BB4;
+ 134   4                                                              SetBusyFlag();
+ 135   4                                                              break;
+ 136   4                                                              case 6: MOutput = Input.nybble.BB5;
+ 137   4                                                              SetBusyFlag();
+ 138   4                                                              break;
+ 139   4                                                              case 7: MOutput = Input.nybble.BB6;
+ 140   4                                                              SetBusyFlag();
+ 141   4                                                              break;
+ 142   4                                                              case 8: MOutput = Input.nybble.BB7;
+ 143   4                                                              SetBusyFlag();
+ 144   4                                                              break;
+ 145   4                                      }
+ 146   3      
+ 147   3                              //if (counter-->=1)     SetBusyFlag();
+ 148   3      
+ 149   3                      }
+ 150   2      
+ 151   2              }
+ 152   1      
+ 153   1              counter=8;
+ 154   1      
+ 155   1      }
+ 156          
+ 157          
+ 158          
+ 159          void DaliTxHandler()
+ 160          {
+ 161   1              static uint8_t counter = 0;
+ 162   1              static uint8_t evcounter = 0;
+ 163   1      
+ 164   1              if (GetBusyFlag())
+ 165   1              {
+ 166   2                      if (evcounter++==15)
+ 167   2                              {evcounter=0;}
+ 168   2                      if (GetDaliStopFlag()==0)               //Are these the Stop Bits?
+ 169   2                      {
+ 170   3      
+ 171   3                              //The next lines implement the two steps of the Manchester Decoding
+ 172   3                              if (counter==0)                                 //Process First Part of the Byte
+ 173   3                              {
+ 174   4                                      if (GetMDOutput()==0) SetDaliOutputPin();
+ 175   4                                      else ClearDaliOutputPin();
+ 176   4                                      counter++;
+C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 12:35:21 PAGE 4   
 
- 177   1      
- 178   1              TH1 = 0;
- 179   1              TL1 = 0;
- 180   1              TCON |= TCON_TR0__STOP;         //Enables Timer 1 Run
- 181   1      }
- 182          
- 183          
- 184          void DaliFrameStart()
- 185          {
- 186   1              ClearBusyFlag();                                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
- 187   1              SetMDOutput();
- 188   1              SetBusyFlag();                                  //Sets the Busy Flag so the Bit can be processed
- 189   1              while(GetBusyFlag()==1);                //Waits until the Bit gets transmitted
- 190   1      
- 191   1      }
- 192          
- 193          void DaliFrameStop()
- 194          {
- 195   1              ClearBusyFlag();                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
- 196   1              SetDaliStopFlag();
- 197   1              SetBusyFlag();                  //Sets the Busy Flag so the Bit can be processed
- 198   1              while(GetBusyFlag()==1);                //Waits until the Bit gets transmitted
- 199   1      
- 200   1      }
- 201          
- 202          void DaliTXStateMachine(uint8_t address, uint8_t Ddata)
- 203          {
- 204   1              DALI_TXFRAME States;
- 205   1      
- 206   1              SetDaliOutputPin();                     //The Line is Normally High
- 207   1              States = START;
- 208   1      
- 209   1              while (States<END)
- 210   1              {
- 211   2                      switch (States)
- 212   2                      {
- 213   3                              case START: {
- 214   4                                                              DaliFrameStart();
- 215   4                                                              States= ADDRESS;
- 216   4                                                              break;
- 217   4                                                      }
- 218   3      
- 219   3                              case ADDRESS: {
- 220   4                                                              ManchesterEncoder(address);
- 221   4                                                              States= DATA;
- 222   4                                                              break;
- 223   4                                                      }
- 224   3      
- 225   3                              case DATA: {
- 226   4                                                              ManchesterEncoder(Ddata);
- 227   4                                                              States= STOP;
- 228   4                                                              break;
- 229   4                                                      }
- 230   3      
- 231   3                              case STOP: {
- 232   4                                                              DaliFrameStop();
- 233   4                                                              States= END;
- 234   4                                                              break;
- 235   4                                                      }
- 236   3      
- 237   3                      }
- 238   2              }
- 239   1      
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 11:44:20 PAGE 5   
+ 177   4                              }
+ 178   3                              else
+ 179   3                              {                                                               //Process 2nd Part of the Byte
+ 180   4      
+ 181   4                                      if (GetMDOutput()==0) ClearDaliOutputPin();
+ 182   4                                      else SetDaliOutputPin();
+ 183   4                                      counter=0;
+ 184   4      
+ 185   4                                      ClearBusyFlag();                //Finished Processing Byte for Manchester Encoder
+ 186   4                              }
+ 187   3      
+ 188   3                      }
+ 189   2                      else                            //Yes, This is the Stop bits stage
+ 190   2                              {
+ 191   3                                      if (counter++<4)        SetDaliOutputPin();             //It keeps the Output High for 4 Cycles of the Timer
+ 192   3                                      else{
+ 193   4                                                      SetDaliOutputPin();             //The Line is normally High;
+ 194   4                                                      counter=0;
+ 195   4                                                      ClearDaliStopFlag();
+ 196   4                                                      ClearBusyFlag();                //Finished Processing Byte for Manchester Encoder
+ 197   4                                              }
+ 198   3                              }
+ 199   2                      }
+ 200   1      
+ 201   1      }
+ 202          /*********************************************************************************
+ 203           *********************************************************************************
+ 204                                                   Dali TX Related Functions
+ 205           *********************************************************************************
+ 206           *********************************************************************************/
+ 207          
+ 208          
+ 209          void ReloadDaliTxTimer(uint8_t reloadH, uint8_t reloadL)
+ 210          {
+ 211   1              TH0 = reloadH;
+ 212   1              TL0 = reloadL;
+ 213   1      }
+ 214          
+ 215          
+ 216          void StartDaliTxTimer()
+ 217          {
+ 218   1      
+ 219   1              TCON |= TCON_TR0__RUN;          //Enables Timer 1 Run
+ 220   1      }
+ 221          
+ 222          
+ 223          uint16_t GetDaliTxTimer()
+ 224          {
+ 225   1              return TH0|TL0;
+ 226   1      }
+ 227          
+ 228          
+ 229          void StopDaliTxTimer()
+ 230          {
+ 231   1      
+ 232   1              TH1 = 0;
+ 233   1              TL1 = 0;
+ 234   1              TCON |= TCON_TR0__STOP;         //Enables Timer 1 Run
+ 235   1      }
+ 236          
+ 237          
+ 238          void DaliFrameStart()
+ 239          {
+C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 12:35:21 PAGE 5   
 
- 240   1      }
- 241          /*Dali Stop bit Flag Getters and Setters*/
- 242          
- 243          void SetDaliStopFlag()
- 244          {
- 245   1              DaliStopFlag =1;
- 246   1      }
- 247          
- 248          void ClearDaliStopFlag()
- 249          {
- 250   1              DaliStopFlag =0;
- 251   1      }
- 252          
- 253          bit GetDaliStopFlag()
- 254          {
- 255   1       return DaliStopFlag;
- 256   1      }
- 257          
- 258          
- 259          void SetDaliOutputPin()
- 260          {
- 261   1              DALI_OUT=1;
- 262   1      }
- 263          
- 264          void ClearDaliOutputPin()
- 265          {
- 266   1              DALI_OUT=0;
- 267   1      }
- 268          
- 269          bit GetDaliOutputPin()
- 270          {
- 271   1       return DALI_OUT;
- 272   1      }
- 273          
- 274          void DaliTxHandler()
- 275          {
- 276   1              static uint8_t counter = 0;
- 277   1              static uint8_t evcounter = 0;
- 278   1      
- 279   1              if (GetBusyFlag())
- 280   1              {
- 281   2                      if (evcounter++==15)
- 282   2                              {evcounter=0;}
- 283   2                      if (GetDaliStopFlag()==0)               //Are these the Stop Bits?
- 284   2                      {
- 285   3      
- 286   3                              //The next lines implement the two steps of the Manchester Decoding
- 287   3                              if (counter==0)                                 //Process First Part of the Byte
- 288   3                              {
- 289   4                                      if (GetMDOutput()==0) SetDaliOutputPin();
- 290   4                                      else ClearDaliOutputPin();
- 291   4                                      counter++;
- 292   4                              }
- 293   3                              else
- 294   3                              {                                                               //Process 2nd Part of the Byte
- 295   4      
- 296   4                                      if (GetMDOutput()==0) ClearDaliOutputPin();
- 297   4                                      else SetDaliOutputPin();
- 298   4                                      counter=0;
- 299   4      
- 300   4                                      ClearBusyFlag();                //Finished Processing Byte for Manchester Encoder
- 301   4                              }
- 302   3      
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 11:44:20 PAGE 6   
+ 240   1              ClearBusyFlag();                                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
+ 241   1              SetMDOutput();
+ 242   1              SetBusyFlag();                                  //Sets the Busy Flag so the Bit can be processed
+ 243   1              while(GetBusyFlag()==1);                //Waits until the Bit gets transmitted
+ 244   1      
+ 245   1      }
+ 246          
+ 247          void DaliFrameStop()
+ 248          {
+ 249   1              ClearBusyFlag();                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
+ 250   1              SetDaliStopFlag();
+ 251   1              SetBusyFlag();                  //Sets the Busy Flag so the Bit can be processed
+ 252   1              while(GetBusyFlag()==1);                //Waits until the Bit gets transmitted
+ 253   1      
+ 254   1      }
+ 255          
+ 256          void DaliTXStateMachine(uint8_t address, uint8_t Ddata)
+ 257          {
+ 258   1              DALI_TXFRAME States;
+ 259   1      
+ 260   1              SetDaliOutputPin();                     //The Line is Normally High
+ 261   1              States = START;
+ 262   1      
+ 263   1              while (States<END)
+ 264   1              {
+ 265   2                      switch (States)
+ 266   2                      {
+ 267   3                              case START: {
+ 268   4                                                              DaliFrameStart();
+ 269   4                                                              States= ADDRESS;
+ 270   4                                                              break;
+ 271   4                                                      }
+ 272   3      
+ 273   3                              case ADDRESS: {
+ 274   4                                                              ManchesterEncoder(address);
+ 275   4                                                              States= DATA;
+ 276   4                                                              break;
+ 277   4                                                      }
+ 278   3      
+ 279   3                              case DATA: {
+ 280   4                                                              ManchesterEncoder(Ddata);
+ 281   4                                                              States= STOP;
+ 282   4                                                              break;
+ 283   4                                                      }
+ 284   3      
+ 285   3                              case STOP: {
+ 286   4                                                              DaliFrameStop();
+ 287   4                                                              States= END;
+ 288   4                                                              break;
+ 289   4                                                      }
+ 290   3      
+ 291   3                      }
+ 292   2              }
+ 293   1      
+ 294   1      }
+ 295          /*Dali Stop bit Flag Getters and Setters*/
+ 296          
+ 297          void SetDaliStopFlag()
+ 298          {
+ 299   1              DaliStopFlag =1;
+ 300   1      }
+ 301          
+ 302          void ClearDaliStopFlag()
+C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 12:35:21 PAGE 6   
 
- 303   3                      }
- 304   2                      else                            //Yes, This is the Stop bits stage
- 305   2                              {
- 306   3                                      if (counter++<4)        SetDaliOutputPin();             //It keeps the Output High for 4 Cyscles of the Timer
- 307   3                                      else{
- 308   4                                                      SetDaliOutputPin();             //The Line is normally High;
- 309   4                                                      counter=0;
- 310   4                                                      ClearDaliStopFlag();
- 311   4                                                      ClearBusyFlag();                //Finished Processing Byte for Manchester Encoder
- 312   4                                              }
- 313   3                              }
- 314   2                      }
- 315   1      
+ 303          {
+ 304   1              DaliStopFlag =0;
+ 305   1      }
+ 306          
+ 307          bit GetDaliStopFlag()
+ 308          {
+ 309   1       return DaliStopFlag;
+ 310   1      }
+ 311          
+ 312          
+ 313          void SetDaliOutputPin()
+ 314          {
+ 315   1              DALI_OUT=1;
  316   1      }
  317          
- 318          /*********************************************************************************
- 319           *********************************************************************************
- 320                                                   Dali RX Related Functions
- 321           *********************************************************************************
- 322           *********************************************************************************/
- 323          uint8_t BusQuietCounter;
- 324          
- 325          bit GetDaliIntputPin()
- 326          {
- 327   1       return DALI_IN;
- 328   1      }
- 329          
- 330          void EnableDaliRxTimerInt()
- 331          {
- 332   1              IE |= IE_ET1__ENABLED;
- 333   1      }
- 334          
- 335          void DisableDaliRxTimerInt()
- 336          {
- 337   1              IE &= 0xf7;
- 338   1      }
- 339          
+ 318          void ClearDaliOutputPin()
+ 319          {
+ 320   1              DALI_OUT=0;
+ 321   1      }
+ 322          
+ 323          bit GetDaliOutputPin()
+ 324          {
+ 325   1       return DALI_OUT;
+ 326   1      }
+ 327          
+ 328          
+ 329          /*********************************************************************************
+ 330           *********************************************************************************
+ 331                                                   Dali RX Related Functions
+ 332           *********************************************************************************
+ 333           *********************************************************************************/
+ 334          uint8_t BusQuietCounter;
+ 335          
+ 336          bit GetDaliIntputPin()
+ 337          {
+ 338   1       return DALI_IN;
+ 339   1      }
  340          
- 341          void ReloadDaliRxTimer(uint8_t reloadH, uint8_t reloadL)
+ 341          void EnableDaliRxTimerInt()
  342          {
- 343   1              TH1 = reloadH;
- 344   1              TL1 = reloadL;
- 345   1      }
- 346          
- 347          void StartDaliRxTimer()
- 348          {
- 349   1      
- 350   1              TH1 = 0;
- 351   1              TL1 = 0;
- 352   1              TCON |= TCON_TR1__RUN;          //Enables Timer 1 Run
- 353   1      }
- 354          
- 355          
- 356          uint16_t GetDaliRxTimer()
- 357          {
- 358   1              return TH1|TL1;
- 359   1      }
- 360          
- 361          
- 362          void StopDaliRxTimer()
- 363          {
- 364   1      
- 365   1              TH1 = 0;
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 11:44:20 PAGE 7   
+ 343   1              IE |= IE_ET1__ENABLED;
+ 344   1      }
+ 345          
+ 346          void DisableDaliRxTimerInt()
+ 347          {
+ 348   1              IE &= 0xf7;
+ 349   1      }
+ 350          
+ 351          
+ 352          void ReloadDaliRxTimer(uint8_t reloadH, uint8_t reloadL)
+ 353          {
+ 354   1              TH1 = reloadH;
+ 355   1              TL1 = reloadL;
+ 356   1      }
+ 357          
+ 358          void StartDaliRxTimer()
+ 359          {
+ 360   1      
+ 361   1              TH1 = 0;
+ 362   1              TL1 = 0;
+ 363   1              TCON |= TCON_TR1__RUN;          //Enables Timer 1 Run
+ 364   1      }
+ 365          
+C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 12:35:21 PAGE 7   
 
- 366   1              TL1 = 0;
- 367   1              TCON |= TCON_TR1__STOP;         //Enables Timer 1 Run
- 368   1      }
- 369          
- 370          void QueryDaliBus()
- 371          {
- 372   1              static counter=0;
- 373   1      
- 374   1              if ((GetDaliIntputPin()==1) && (counter++==3))
- 375   1              {
- 376   2                      counter=0;
- 377   2                      if(GetBusQuietCounter()<=254) IncBusQuietCounter();
- 378   2              }
- 379   1              if (GetDaliIntputPin()==0)
- 380   1              {
- 381   2                      counter=0;
- 382   2                      ClearBusQuietCounter();
- 383   2              }
- 384   1      }
- 385          
- 386          
- 387          void IncBusQuietCounter()
- 388          {
- 389   1              BusQuietCounter++;
- 390   1      }
- 391          
- 392          void ClearBusQuietCounter()
- 393          {
- 394   1              BusQuietCounter=0;
+ 366          
+ 367          uint16_t GetDaliRxTimer()
+ 368          {
+ 369   1              return TH1|TL1;
+ 370   1      }
+ 371          
+ 372          
+ 373          void StopDaliRxTimer()
+ 374          {
+ 375   1      
+ 376   1              TH1 = 0;
+ 377   1              TL1 = 0;
+ 378   1              TCON |= TCON_TR1__STOP;         //Enables Timer 1 Run
+ 379   1      }
+ 380          
+ 381          void QueryDaliBus()
+ 382          {
+ 383   1              static counter=0;
+ 384   1      
+ 385   1              if ((GetDaliIntputPin()==1) && (counter++==3))
+ 386   1              {
+ 387   2                      counter=0;
+ 388   2                      if(GetBusQuietCounter()<=254) IncBusQuietCounter();
+ 389   2              }
+ 390   1              if (GetDaliIntputPin()==0)
+ 391   1              {
+ 392   2                      counter=0;
+ 393   2                      ClearBusQuietCounter();
+ 394   2              }
  395   1      }
  396          
- 397          uint8_t GetBusQuietCounter()
- 398          {
- 399   1              return BusQuietCounter;
- 400   1      }
- 401          
+ 397          
+ 398          void IncBusQuietCounter()
+ 399          {
+ 400   1              BusQuietCounter++;
+ 401   1      }
  402          
- 403          void SetDaliInputPinPolarity (INTPOLARITY input)
+ 403          void ClearBusQuietCounter()
  404          {
- 405   1              if (input==ACTIVE_HIGH) IT01CF |= 0x80;
- 406   1              else IT01CF &=0x7f;
- 407   1      }
- 408          
- 409          
- 410          void EnableInt1 ()
- 411          {
- 412   1              IE |= 0x4;
- 413   1      }
- 414          
- 415          void DisableInt1 ()
- 416          {
- 417   1              IE &= 0xfb;
+ 405   1              BusQuietCounter=0;
+ 406   1      }
+ 407          
+ 408          uint8_t GetBusQuietCounter()
+ 409          {
+ 410   1              return BusQuietCounter;
+ 411   1      }
+ 412          
+ 413          
+ 414          void SetDaliInputPinPolarity (INTPOLARITY input)
+ 415          {
+ 416   1              if (input==ACTIVE_HIGH) IT01CF |= 0x80;
+ 417   1              else IT01CF &=0x7f;
  418   1      }
  419          
+ 420          
+ 421          void EnableInt1 ()
+ 422          {
+ 423   1              IE |= 0x4;
+ 424   1      }
+ 425          
+ 426          void DisableInt1 ()
+ 427          {
+ 428   1              IE &= 0xfb;
+C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 12:35:21 PAGE 8   
+
+ 429   1      }
+ 430          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    519    ----
+   CODE SIZE        =    515    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =      7       2
    IDATA SIZE       =   ----    ----
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 11:44:20 PAGE 8   
-
    BIT SIZE         =      3    ----
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----

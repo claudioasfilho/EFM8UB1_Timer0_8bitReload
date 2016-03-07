@@ -99,11 +99,11 @@ void ManchesterEncoder (uint8_t input)
 {
 	static BITS_BYTE Input;
 
-	static int8_t counter = 7;
+	static int8_t counter = 8;
 
 	ClearBusyFlag();
 
-	if (counter==7)
+	if (counter==8)
 	{
 		Input.Abyte = input;
 	}
@@ -114,37 +114,91 @@ void ManchesterEncoder (uint8_t input)
 
 		if (GetBusyFlag()==0)
 		{
-			switch (counter){
+			switch (counter--){
 
-							case 0: MOutput = Input.nybble.BB0;
+							case 0: //SetBusyFlag();
 							break;
-							case 1: MOutput = Input.nybble.BB1;
+							case 1: MOutput = Input.nybble.BB0;
+							SetBusyFlag();
 							break;
-							case 2: MOutput = Input.nybble.BB2;
+							case 2: MOutput = Input.nybble.BB1;
+							SetBusyFlag();
 							break;
-							case 3: MOutput = Input.nybble.BB3;
+							case 3: MOutput = Input.nybble.BB2;
+							SetBusyFlag();
 							break;
-							case 4: MOutput = Input.nybble.BB4;
+							case 4: MOutput = Input.nybble.BB3;
+							SetBusyFlag();
 							break;
-							case 5: MOutput = Input.nybble.BB5;
+							case 5: MOutput = Input.nybble.BB4;
+							SetBusyFlag();
 							break;
-							case 6: MOutput = Input.nybble.BB6;
+							case 6: MOutput = Input.nybble.BB5;
+							SetBusyFlag();
 							break;
-							case 7: MOutput = Input.nybble.BB7;
+							case 7: MOutput = Input.nybble.BB6;
+							SetBusyFlag();
+							break;
+							case 8: MOutput = Input.nybble.BB7;
+							SetBusyFlag();
 							break;
 				}
 
-			if (counter-->=0)	SetBusyFlag();
-
+			//if (counter-->=1)	SetBusyFlag();
 
 		}
 
 	}
 
-	counter=7;
+	counter=8;
 
 }
 
+
+
+void DaliTxHandler()
+{
+	static uint8_t counter = 0;
+	static uint8_t evcounter = 0;
+
+	if (GetBusyFlag())
+	{
+		if (evcounter++==15)
+			{evcounter=0;}
+		if (GetDaliStopFlag()==0)		//Are these the Stop Bits?
+		{
+
+			//The next lines implement the two steps of the Manchester Decoding
+			if (counter==0)					//Process First Part of the Byte
+			{
+				if (GetMDOutput()==0) SetDaliOutputPin();
+				else ClearDaliOutputPin();
+				counter++;
+			}
+			else
+			{								//Process 2nd Part of the Byte
+
+				if (GetMDOutput()==0) ClearDaliOutputPin();
+				else SetDaliOutputPin();
+				counter=0;
+
+				ClearBusyFlag();		//Finished Processing Byte for Manchester Encoder
+			}
+
+		}
+		else				//Yes, This is the Stop bits stage
+			{
+				if (counter++<4)	SetDaliOutputPin();		//It keeps the Output High for 4 Cycles of the Timer
+				else{
+						SetDaliOutputPin();		//The Line is normally High;
+						counter=0;
+						ClearDaliStopFlag();
+						ClearBusyFlag();		//Finished Processing Byte for Manchester Encoder
+					}
+			}
+		}
+
+}
 /*********************************************************************************
  *********************************************************************************
  	 	 	 	 	 Dali TX Related Functions
@@ -271,49 +325,6 @@ bit GetDaliOutputPin()
  return DALI_OUT;
 }
 
-void DaliTxHandler()
-{
-	static uint8_t counter = 0;
-	static uint8_t evcounter = 0;
-
-	if (GetBusyFlag())
-	{
-		if (evcounter++==15)
-			{evcounter=0;}
-		if (GetDaliStopFlag()==0)		//Are these the Stop Bits?
-		{
-
-			//The next lines implement the two steps of the Manchester Decoding
-			if (counter==0)					//Process First Part of the Byte
-			{
-				if (GetMDOutput()==0) SetDaliOutputPin();
-				else ClearDaliOutputPin();
-				counter++;
-			}
-			else
-			{								//Process 2nd Part of the Byte
-
-				if (GetMDOutput()==0) ClearDaliOutputPin();
-				else SetDaliOutputPin();
-				counter=0;
-
-				ClearBusyFlag();		//Finished Processing Byte for Manchester Encoder
-			}
-
-		}
-		else				//Yes, This is the Stop bits stage
-			{
-				if (counter++<4)	SetDaliOutputPin();		//It keeps the Output High for 4 Cyscles of the Timer
-				else{
-						SetDaliOutputPin();		//The Line is normally High;
-						counter=0;
-						ClearDaliStopFlag();
-						ClearBusyFlag();		//Finished Processing Byte for Manchester Encoder
-					}
-			}
-		}
-
-}
 
 /*********************************************************************************
  *********************************************************************************
