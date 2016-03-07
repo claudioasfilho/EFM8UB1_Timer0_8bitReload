@@ -99,7 +99,7 @@ void ManchesterEncoder (uint8_t input)
 {
 	static BITS_BYTE Input;
 
-	static int8_t counter = 8;
+	static int8_t counter = 8;				//It uses 8 steps because it sends 7 bits and stills needs the time to conclude the last bit before it loads the counter again
 
 	ClearBusyFlag();
 
@@ -144,7 +144,6 @@ void ManchesterEncoder (uint8_t input)
 							break;
 				}
 
-			//if (counter-->=1)	SetBusyFlag();
 
 		}
 
