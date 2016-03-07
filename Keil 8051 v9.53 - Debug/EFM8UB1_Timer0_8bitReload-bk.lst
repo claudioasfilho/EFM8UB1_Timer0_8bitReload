@@ -1,0 +1,209 @@
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD_BK                                      02/19/2016 11:06:53 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE EFM8UB1_TIMER0_8BITRELOAD_BK
+OBJECT MODULE PLACED IN .\EFM8UB1_Timer0_8bitReload-bk.OBJ
+COMPILER INVOKED BY: c:\SiliconLabs\SimplicityStudio\v3\developer\toolchains\keil_8051\9.53\BIN\C51.exe C:\Users\clfilho
+                    -\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\EFM8UB1_Timer0_8bitReload-bk.c OMF2 SMALL DEBUG OBJECTE
+                    -XTEND ROM(LARGE) WARNINGLEVEL(2) FLOATFUZZY(3) OPTIMIZE(8,SPEED) DEFINE(DEBUG=1) INTVECTOR(0X0000) INTPROMOTE INCDIR(C:\
+                    -Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\inc;C:/SiliconLabs/SimplicityStudio/v3/dev
+                    -eloper/sdks/si8051/v3//Device/shared/si8051Base;C:/SiliconLabs/SimplicityStudio/v3/developer/sdks/si8051/v3//Device/EFM8
+                    -UB1;C:/SiliconLabs/SimplicityStudio/v3/developer/sdks/si8051/v3//Device/EFM8UB1/inc) PRINT(.\EFM8UB1_Timer0_8bitReload-b
+                    -k.lst) COND PAGEWIDTH(120) PAGELENGTH(65) OBJECT(.\EFM8UB1_Timer0_8bitReload-bk.OBJ)
+
+line level    source
+
+   1          //-----------------------------------------------------------------------------
+   2          // EFM8UB1_Timer0_8bitReload.c
+   3          //-----------------------------------------------------------------------------
+   4          // Copyright 2014 Silicon Laboratories, Inc.
+   5          // http://developer.silabs.com/legal/version/v11/Silicon_Labs_Software_License_Agreement.txt
+   6          //
+   7          // Program Description:
+   8          //
+   9          // This program uses Timer0 in 8-bit counter/timer with reload mode.
+  10          // It uses the Timer0 to create an interrupt at a certain rate and toggles
+  11          // the LED when the interrupt counter reaches the selected value.
+  12          //
+  13          // Resources:
+  14          //   SYSCLK - 24.5 MHz HFOSC0 / 8
+  15          //   Timer0 - 10 Hz interrupt
+  16          //   P1.4   - LED green
+  17          //   P2.3   - Display enable
+  18          //
+  19          //-----------------------------------------------------------------------------
+  20          // How To Test: EFM8UB1 STK
+  21          //-----------------------------------------------------------------------------
+  22          // 1) Place the switch in "AEM" mode.
+  23          // 2) Connect the EFM8UB1 STK board to a PC using a mini USB cable.
+  24          // 3) Compile and download code to the EFM8UB1 STK board.
+  25          //    In Simplicity Studio IDE, select Run -> Debug from the menu bar,
+  26          //    click the Debug button in the quick menu, or press F11.
+  27          // 4) Run the code.
+  28          //    In Simplicity Studio IDE, select Run -> Resume from the menu bar,
+  29          //    click the Resume button in the quick menu, or press F8.
+  30          // 5) Check that the green LED is blinking.
+  31          //
+  32          // Target:         EFM8UB1
+  33          // Tool chain:     Generic
+  34          //
+  35          // Release 0.1 (ST)
+  36          //    - Initial Revision
+  37          //    - 10 OCT 2014
+  38          //
+  39          
+  40          //-----------------------------------------------------------------------------
+  41          // Includes
+  42          //-----------------------------------------------------------------------------
+  43          #include <SI_EFM8UB1_Register_Enums.h>
+  44          #include "InitDevice.h"
+  45          
+  46          bit MDone;
+  47          bit MOutput;
+  48          
+  49          typedef union bits_byte
+  50                                          {
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD_BK                                      02/19/2016 11:06:53 PAGE 2   
+
+  51                                                  struct{
+  52                                                          uint8_t BB0:1;
+  53                                                          uint8_t BB1:1;
+  54                                                          uint8_t BB2:1;
+  55                                                          uint8_t BB3:1;
+  56                                                          uint8_t BB4:1;
+  57                                                          uint8_t BB5:1;
+  58                                                          uint8_t BB6:1;
+  59                                                          uint8_t BB7:1;
+  60                                                          } nybble;
+  61                                                  uint8_t Abyte;
+  62                                                  } BITS_BYTE;
+  63          typedef enum
+  64                                  {
+  65                                          START,
+  66                                          ADDRESS,
+  67                                          DATA,
+  68                                          STOP
+  69                                          } DALI_FRAME;
+  70                                          
+  71                  
+  72          //-----------------------------------------------------------------------------
+  73          // Pin Definitions
+  74          //-----------------------------------------------------------------------------
+  75          SI_SBIT (DISP_EN, SFR_P2, 3);          // Display Enable
+  76          #define DISP_BC_DRIVEN   0             // 0 = Board Controller drives display
+  77          #define DISP_EFM8_DRIVEN 1             // 1 = EFM8 drives display
+  78          
+  79          //-----------------------------------------------------------------------------
+  80          // Main Routine
+  81          //-----------------------------------------------------------------------------
+  82          void main (void)
+  83          {
+  84   1              uint8_t test=0;
+  85   1         enter_DefaultMode_from_RESET();
+  86   1      
+  87   1         DISP_EN = DISP_BC_DRIVEN;           // EFM8 does not drive display
+  88   1      
+  89   1         IE_EA = 1;                          // Enable global interrupts
+  90   1      
+  91   1        
+  92   1      
+  93   1         while (1) {
+  94   2      
+  95   2                 //ManchesterEncoder (test++);
+  96   2                 ManchesterEncoder (0xf0);
+  97   2         }
+  98   1      
+  99   1      
+ 100   1      }
+ 101          
+ 102          
+ 103          void DaliFrameStart()
+ 104          {
+ 105   1              
+ 106   1      }
+ 107          
+ 108          
+ 109          void ManchesterEncoder (uint8_t input)
+ 110          {
+ 111   1              static BITS_BYTE Input;
+ 112   1      
+ 113   1              static uint8_t counter = 0;
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD_BK                                      02/19/2016 11:06:53 PAGE 3   
+
+ 114   1              MDone =0;
+ 115   1              if (counter==0) Input.Abyte = input;
+ 116   1      
+ 117   1              while (counter<8)
+ 118   1              {
+ 119   2                      while(MDone==1);
+ 120   2      
+ 121   2                      if (MDone==0)
+ 122   2                      {
+ 123   3                              switch (counter){
+ 124   4      
+ 125   4                                                              case 0: MOutput = Input.nybble.BB0;
+ 126   4                                                              break;
+ 127   4                                                              case 1: MOutput = Input.nybble.BB1;
+ 128   4                                                              break;
+ 129   4                                                              case 2: MOutput = Input.nybble.BB2;
+ 130   4                                                              break;
+ 131   4                                                              case 3: MOutput = Input.nybble.BB3;
+ 132   4                                                              break;
+ 133   4                                                              case 4: MOutput = Input.nybble.BB4;
+ 134   4                                                              break;
+ 135   4                                                              case 5: MOutput = Input.nybble.BB5;
+ 136   4                                                              break;
+ 137   4                                                              case 6: MOutput = Input.nybble.BB6;
+ 138   4                                                              break;
+ 139   4                                                              case 7: MOutput = Input.nybble.BB7;
+ 140   4                                                              break;
+ 141   4                                      }
+ 142   3      
+ 143   3                              MDone=1;
+ 144   3                              counter++;
+ 145   3                      }
+ 146   2      
+ 147   2              }
+ 148   1              counter=0;
+ 149   1      
+ 150   1      }
+ 151          
+ 152          void SetBusyFlag()
+ 153          {
+ 154   1              MDone=1;
+ 155   1      }
+ 156          
+ 157          void ClearBusyFlag()
+ 158          {
+ 159   1              MDone=0;
+ 160   1      }
+ 161          
+ 162          bit GetBusyFlag()
+ 163          {
+ 164   1       return MDone;
+ 165   1      }
+ 166          
+ 167          bit GetMDOutput()
+ 168          {
+ 169   1       return MOutput;
+ 170   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    168    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD_BK                                      02/19/2016 11:06:53 PAGE 4   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
