@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:50:09 PAGE 1   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:52:01 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE EFM8UB1_TIMER0_8BITRELOAD
@@ -63,56 +63,57 @@ line level    source
   48          
   49          
   50          /*
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:50:09 PAGE 2   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:52:01 PAGE 2   
 
   51          bit MDone;
   52          bit MOutput;
   53          bit DaliStopFlag;
   54          */
   55          
-  56          //-----------------------------------------------------------------------------
-  57          // Pin Definitions
-  58          //-----------------------------------------------------------------------------
-  59          /*SI_SBIT (DISP_EN, SFR_P2, 3);          // Display Enable
-  60          
-  61          SI_SBIT (PB0_SW,SFR_P0, 2);                        //PB0 Switch Definition
-  62          SI_SBIT (DALI_OUT, SFR_P0, 0);             //Dali Output Pin
-  63          SI_SBIT (DALI_IN, SFR_P0, 3);              //Dali Input Pin*/
-  64          
-  65          #define DISP_BC_DRIVEN   0             // 0 = Board Controller drives display
-  66          #define DISP_EFM8_DRIVEN 1             // 1 = EFM8 drives display
-  67          
-  68          //-----------------------------------------------------------------------------
-  69          // Main Routine
-  70          //-----------------------------------------------------------------------------
-  71          void main (void)
-  72          {
-  73   1              uint8_t test=0;
-  74   1      
-  75   1              uint16_t fcounter;
-  76   1         enter_DefaultMode_from_RESET();
-  77   1      
-  78   1         DISP_EN = DISP_BC_DRIVEN;                    // EFM8 does not drive display
-  79   1      
-  80   1         IE_EA = 1;                                   // Enable global interrupts
-  81   1         PRTDRV |=0x1;                                                        //Enable high drive strength on P0
-  82   1         SetDaliInputPinPolarity(ACTIVE_LOW);
-  83   1      
-  84   1         while (1) {
-  85   2                 DALI_OUT=1;
-  86   2                 if (PB0_SW==0) {
-  87   3                         //ManchesterEncoder(0xf0);
-  88   3                         DaliTXStateMachine(0xf0, 0xf0);
-  89   3                         for(fcounter=0; fcounter<0xfff; fcounter++);
-  90   3                 }
-  91   2      
-  92   2         }
-  93   1      
+  56          
+  57          //-----------------------------------------------------------------------------
+  58          // Pin Definitions
+  59          //-----------------------------------------------------------------------------
+  60          /*SI_SBIT (DISP_EN, SFR_P2, 3);          // Display Enable
+  61          
+  62          SI_SBIT (PB0_SW,SFR_P0, 2);                        //PB0 Switch Definition
+  63          SI_SBIT (DALI_OUT, SFR_P0, 0);             //Dali Output Pin
+  64          SI_SBIT (DALI_IN, SFR_P0, 3);              //Dali Input Pin*/
+  65          
+  66          #define DISP_BC_DRIVEN   0             // 0 = Board Controller drives display
+  67          #define DISP_EFM8_DRIVEN 1             // 1 = EFM8 drives display
+  68          
+  69          //-----------------------------------------------------------------------------
+  70          // Main Routine
+  71          //-----------------------------------------------------------------------------
+  72          void main (void)
+  73          {
+  74   1              uint8_t test=0;
+  75   1      
+  76   1              uint16_t fcounter;
+  77   1         enter_DefaultMode_from_RESET();
+  78   1      
+  79   1         DISP_EN = DISP_BC_DRIVEN;                    // EFM8 does not drive display
+  80   1      
+  81   1         IE_EA = 1;                                   // Enable global interrupts
+  82   1         PRTDRV |=0x1;                                                        //Enable high drive strength on P0
+  83   1         SetDaliInputPinPolarity(ACTIVE_LOW);
+  84   1      
+  85   1         while (1) {
+  86   2                 DALI_OUT=1;
+  87   2                 if (PB0_SW==0) {
+  88   3                         //ManchesterEncoder(0xf0);
+  89   3                         DaliTXStateMachine(0xf0, 0xf0);
+  90   3                         for(fcounter=0; fcounter<0xfff; fcounter++);
+  91   3                 }
+  92   2      
+  93   2         }
   94   1      
-  95   1      }
-  96          
+  95   1      
+  96   1      }
   97          
-  98          #if 0
+  98          
+  99          #if 0
               
               /*********************************************************************************
                *********************************************************************************
@@ -127,9 +128,9 @@ line level    source
               {
                       MDone=1;
               }
-              
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:50:09 PAGE 3   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:52:01 PAGE 3   
 
+              
               void ClearBusyFlag()
               {
                       MDone=0;
@@ -192,9 +193,9 @@ line level    source
                                                                       case 5: MOutput = Input.nybble.BB5;
                                                                       break;
                                                                       case 6: MOutput = Input.nybble.BB6;
-                                                                      break;
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:50:09 PAGE 4   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:52:01 PAGE 4   
 
+                                                                      break;
                                                                       case 7: MOutput = Input.nybble.BB7;
                                                                       break;
                                               }
@@ -257,9 +258,9 @@ line level    source
               
               void DaliFrameStop()
               {
-                      ClearBusyFlag();                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:50:09 PAGE 5   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:52:01 PAGE 5   
 
+                      ClearBusyFlag();                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
                       SetDaliStopFlag();
                       SetBusyFlag();                  //Sets the Busy Flag so the Bit can be processed
                       while(GetBusyFlag()==1);                //Waits until the Bit gets transmitted
@@ -322,9 +323,9 @@ line level    source
                return DaliStopFlag;
               }
               
-              
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:50:09 PAGE 6   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:52:01 PAGE 6   
 
+              
               void SetDaliOutputPin()
               {
                       DALI_OUT=1;
@@ -387,9 +388,9 @@ line level    source
               /*********************************************************************************
                *********************************************************************************
                                                        Dali RX Related Functions
-               *********************************************************************************
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:50:09 PAGE 7   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:52:01 PAGE 7   
 
+               *********************************************************************************
                *********************************************************************************/
               uint8_t BusQuietCounter;
               
@@ -452,9 +453,9 @@ line level    source
                               counter=0;
                               ClearBusQuietCounter();
                       }
-              }
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:50:09 PAGE 8   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:52:01 PAGE 8   
 
+              }
               
               
               void IncBusQuietCounter()
