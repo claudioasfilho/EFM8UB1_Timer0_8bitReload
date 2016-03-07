@@ -5,12 +5,16 @@
 // leave the sections inside the "$[...]" comment tags alone
 // or they will be overwritten!
 //=========================================================
-#ifndef __INIT_DEVICE_H__
-#define __INIT_DEVICE_H__
+#ifndef __DALI_H__
+#define __DALI_H__
 
-#if 0
 #define TMH	0xff
 #define TML	0x2B
+
+
+//-----------------------------------------------------------------------------
+#include <SI_EFM8UB1_Register_Enums.h>
+//#include "InitDevice.h"
 
 typedef union bits_byte
 				{
@@ -39,6 +43,15 @@ typedef enum
 	ACTIVE_LOW=0,
 	ACTIVE_HIGH=1
 }INTPOLARITY;
+
+//-----------------------------------------------------------------------------
+// Pin Definitions
+//-----------------------------------------------------------------------------
+SI_SBIT (DISP_EN, SFR_P2, 3);          // Display Enable
+
+SI_SBIT (PB0_SW,SFR_P0, 2);			   //PB0 Switch Definition
+SI_SBIT (DALI_OUT, SFR_P0, 0);		   //Dali Output Pin
+SI_SBIT (DALI_IN, SFR_P0, 3);		   //Dali Input Pin
 
 
 /* Manchester Encoder Methods */
@@ -85,26 +98,6 @@ void SetDaliInputPinPolarity (INTPOLARITY input);
 void EnableInt1 ();
 void DisableInt1 ();
 
-
-
-// USER CONSTANTS
-// USER PROTOTYPES
-
-
-#endif
-
-// $[Mode Transition Prototypes]
-extern void enter_DefaultMode_from_RESET(void);
-// [Mode Transition Prototypes]$
-
-// $[Config(Per-Module Mode)Transition Prototypes]
-extern void WDT_0_enter_DefaultMode_from_RESET(void);
-extern void PORTS_2_enter_DefaultMode_from_RESET(void);
-extern void PBCFG_0_enter_DefaultMode_from_RESET(void);
-extern void TIMER01_0_enter_DefaultMode_from_RESET(void);
-extern void TIMER_SETUP_0_enter_DefaultMode_from_RESET(void);
-extern void INTERRUPT_0_enter_DefaultMode_from_RESET(void);
-// [Config(Per-Module Mode)Transition Prototypes]$
 
 
 #endif

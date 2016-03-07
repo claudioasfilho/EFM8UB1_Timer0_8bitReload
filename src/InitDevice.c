@@ -9,6 +9,7 @@
 // USER INCLUDES
 #include <SI_EFM8UB1_Register_Enums.h>
 #include "InitDevice.h"
+#include "Dali.h"
 
 // USER PROTOTYPES
 // USER FUNCTIONS

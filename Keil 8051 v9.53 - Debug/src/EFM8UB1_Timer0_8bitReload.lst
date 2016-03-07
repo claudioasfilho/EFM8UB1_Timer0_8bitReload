@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 09:50:41 PAGE 1   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:46:12 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE EFM8UB1_TIMER0_8BITRELOAD
@@ -57,445 +57,449 @@ line level    source
   42          //-----------------------------------------------------------------------------
   43          #include <SI_EFM8UB1_Register_Enums.h>
   44          #include "InitDevice.h"
-  45          
+  45          #include "Dali.h"
   46          
   47          
   48          
   49          
-  50          bit MDone;
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 09:50:41 PAGE 2   
+  50          /*
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:46:12 PAGE 2   
 
-  51          bit MOutput;
-  52          bit DaliStopFlag;
-  53          
-  54          //-----------------------------------------------------------------------------
-  55          // Pin Definitions
-  56          //-----------------------------------------------------------------------------
-  57          SI_SBIT (DISP_EN, SFR_P2, 3);          // Display Enable
-  58          
-  59          SI_SBIT (PB0_SW,SFR_P0, 2);                        //PB0 Switch Definition
-  60          SI_SBIT (DALI_OUT, SFR_P0, 0);             //Dali Output Pin
-  61          SI_SBIT (DALI_IN, SFR_P0, 3);              //Dali Input Pin
-  62          
-  63          #define DISP_BC_DRIVEN   0             // 0 = Board Controller drives display
-  64          #define DISP_EFM8_DRIVEN 1             // 1 = EFM8 drives display
-  65          
-  66          //-----------------------------------------------------------------------------
-  67          // Main Routine
-  68          //-----------------------------------------------------------------------------
-  69          void main (void)
-  70          {
-  71   1              uint8_t test=0;
-  72   1      
-  73   1              uint16_t fcounter;
-  74   1         enter_DefaultMode_from_RESET();
-  75   1      
-  76   1         DISP_EN = DISP_BC_DRIVEN;                    // EFM8 does not drive display
-  77   1      
-  78   1         IE_EA = 1;                                   // Enable global interrupts
-  79   1         PRTDRV |=0x1;                                                        //Enable high drive strength on P0
-  80   1         SetDaliInputPinPolarity(ACTIVE_LOW);
-  81   1      
-  82   1         while (1) {
-  83   2                 DALI_OUT=1;
-  84   2                 if (PB0_SW==0) {
-  85   3                         //ManchesterEncoder(0xf0);
-  86   3                         DaliTXStateMachine(0xf0, 0xf0);
-  87   3                         for(fcounter=0; fcounter<0xfff; fcounter++);
-  88   3                 }
-  89   2      
-  90   2         }
-  91   1      
+  51          bit MDone;
+  52          bit MOutput;
+  53          bit DaliStopFlag;
+  54          */
+  55          //-----------------------------------------------------------------------------
+  56          // Pin Definitions
+  57          //-----------------------------------------------------------------------------
+  58          /*SI_SBIT (DISP_EN, SFR_P2, 3);          // Display Enable
+  59          
+  60          SI_SBIT (PB0_SW,SFR_P0, 2);                        //PB0 Switch Definition
+  61          SI_SBIT (DALI_OUT, SFR_P0, 0);             //Dali Output Pin
+  62          SI_SBIT (DALI_IN, SFR_P0, 3);              //Dali Input Pin*/
+  63          
+  64          #define DISP_BC_DRIVEN   0             // 0 = Board Controller drives display
+  65          #define DISP_EFM8_DRIVEN 1             // 1 = EFM8 drives display
+  66          
+  67          //-----------------------------------------------------------------------------
+  68          // Main Routine
+  69          //-----------------------------------------------------------------------------
+  70          void main (void)
+  71          {
+  72   1              uint8_t test=0;
+  73   1      
+  74   1              uint16_t fcounter;
+  75   1         enter_DefaultMode_from_RESET();
+  76   1      
+  77   1         DISP_EN = DISP_BC_DRIVEN;                    // EFM8 does not drive display
+  78   1      
+  79   1         IE_EA = 1;                                   // Enable global interrupts
+  80   1         PRTDRV |=0x1;                                                        //Enable high drive strength on P0
+  81   1         SetDaliInputPinPolarity(ACTIVE_LOW);
+  82   1      
+  83   1         while (1) {
+  84   2                 DALI_OUT=1;
+  85   2                 if (PB0_SW==0) {
+  86   3                         //ManchesterEncoder(0xf0);
+  87   3                         DaliTXStateMachine(0xf0, 0xf0);
+  88   3                         for(fcounter=0; fcounter<0xfff; fcounter++);
+  89   3                 }
+  90   2      
+  91   2         }
   92   1      
-  93   1      }
-  94          
+  93   1      
+  94   1      }
   95          
-  96          /*********************************************************************************
-  97           *********************************************************************************
-  98                                                   Manchester Encoder Related Functions
-  99           *********************************************************************************
- 100           *********************************************************************************/
- 101          
- 102          
- 103          /*Manchester Decoder Busy Flag Getters and Setters*/
- 104          
- 105          void SetBusyFlag()
- 106          {
- 107   1              MDone=1;
- 108   1      }
- 109          
- 110          void ClearBusyFlag()
- 111          {
- 112   1              MDone=0;
- 113   1      }
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 09:50:41 PAGE 3   
+  96          
+  97          #if 0
+              
+              /*********************************************************************************
+               *********************************************************************************
+                                                       Manchester Encoder Related Functions
+               *********************************************************************************
+               *********************************************************************************/
+              
+              
+              /*Manchester Decoder Busy Flag Getters and Setters*/
+              
+              void SetBusyFlag()
+              {
+                      MDone=1;
+              }
+              
+              void ClearBusyFlag()
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:46:12 PAGE 3   
 
- 114          
- 115          bit GetBusyFlag()
- 116          {
- 117   1       return MDone;
- 118   1      }
- 119          
- 120          /*Manchester Decoder Output Flag Getters and Setters*/
- 121          
- 122          void SetMDOutput()
- 123          {
- 124   1              MOutput =1;
- 125   1      }
- 126          
- 127          void ClearMDOutput()
- 128          {
- 129   1              MOutput =0;
- 130   1      }
- 131          
- 132          bit GetMDOutput()
- 133          {
- 134   1       return MOutput;
- 135   1      }
- 136          SI_SBIT (LED2,SFR_P1, 4);                          //PB0 Switch Definition
- 137          
- 138          void ManchesterEncoder (uint8_t input)
- 139          {
- 140   1              static BITS_BYTE Input;
- 141   1      
- 142   1              static int8_t counter = 7;
- 143   1      
- 144   1              ClearBusyFlag();
- 145   1      
- 146   1              if (counter==7)
- 147   1              {
- 148   2                      Input.Abyte = input;
- 149   2              }
- 150   1      
- 151   1              while (counter>=0)
- 152   1              {
- 153   2                      while(GetBusyFlag()==1);
- 154   2      
- 155   2                      if (GetBusyFlag()==0)
- 156   2                      {
- 157   3                              switch (counter){
- 158   4      
- 159   4                                                              case 0: MOutput = Input.nybble.BB0;
- 160   4                                                              break;
- 161   4                                                              case 1: MOutput = Input.nybble.BB1;
- 162   4                                                              break;
- 163   4                                                              case 2: MOutput = Input.nybble.BB2;
- 164   4                                                              break;
- 165   4                                                              case 3: MOutput = Input.nybble.BB3;
- 166   4                                                              break;
- 167   4                                                              case 4: MOutput = Input.nybble.BB4;
- 168   4                                                              break;
- 169   4                                                              case 5: MOutput = Input.nybble.BB5;
- 170   4                                                              break;
- 171   4                                                              case 6: MOutput = Input.nybble.BB6;
- 172   4                                                              break;
- 173   4                                                              case 7: MOutput = Input.nybble.BB7;
- 174   4                                                              break;
- 175   4                                      }
- 176   3      
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 09:50:41 PAGE 4   
+              {
+                      MDone=0;
+              }
+              
+              bit GetBusyFlag()
+              {
+               return MDone;
+              }
+              
+              /*Manchester Decoder Output Flag Getters and Setters*/
+              
+              void SetMDOutput()
+              {
+                      MOutput =1;
+              }
+              
+              void ClearMDOutput()
+              {
+                      MOutput =0;
+              }
+              
+              bit GetMDOutput()
+              {
+               return MOutput;
+              }
+              SI_SBIT (LED2,SFR_P1, 4);                          //PB0 Switch Definition
+              
+              void ManchesterEncoder (uint8_t input)
+              {
+                      static BITS_BYTE Input;
+              
+                      static int8_t counter = 7;
+              
+                      ClearBusyFlag();
+              
+                      if (counter==7)
+                      {
+                              Input.Abyte = input;
+                      }
+              
+                      while (counter>=0)
+                      {
+                              while(GetBusyFlag()==1);
+              
+                              if (GetBusyFlag()==0)
+                              {
+                                      switch (counter){
+              
+                                                                      case 0: MOutput = Input.nybble.BB0;
+                                                                      break;
+                                                                      case 1: MOutput = Input.nybble.BB1;
+                                                                      break;
+                                                                      case 2: MOutput = Input.nybble.BB2;
+                                                                      break;
+                                                                      case 3: MOutput = Input.nybble.BB3;
+                                                                      break;
+                                                                      case 4: MOutput = Input.nybble.BB4;
+                                                                      break;
+                                                                      case 5: MOutput = Input.nybble.BB5;
+                                                                      break;
+                                                                      case 6: MOutput = Input.nybble.BB6;
+                                                                      break;
+                                                                      case 7: MOutput = Input.nybble.BB7;
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:46:12 PAGE 4   
 
- 177   3                              if (counter-->=0)       SetBusyFlag();
- 178   3      
- 179   3      
- 180   3                      }
- 181   2      
- 182   2              }
- 183   1      
- 184   1              counter=7;
- 185   1      
- 186   1      }
- 187          
- 188          /*********************************************************************************
- 189           *********************************************************************************
- 190                                                   Dali TX Related Functions
- 191           *********************************************************************************
- 192           *********************************************************************************/
- 193          
- 194          
- 195          void ReloadDaliTxTimer(uint8_t reloadH, uint8_t reloadL)
- 196          {
- 197   1              TH0 = reloadH;
- 198   1              TL0 = reloadL;
- 199   1      }
- 200          
- 201          
- 202          void StartDaliTxTimer()
- 203          {
- 204   1      
- 205   1              TCON |= TCON_TR0__RUN;          //Enables Timer 1 Run
- 206   1      }
- 207          
- 208          
- 209          uint16_t GetDaliTxTimer()
- 210          {
- 211   1              return TH0|TL0;
- 212   1      }
- 213          
- 214          
- 215          void StopDaliTxTimer()
- 216          {
- 217   1      
- 218   1              TH1 = 0;
- 219   1              TL1 = 0;
- 220   1              TCON |= TCON_TR0__STOP;         //Enables Timer 1 Run
- 221   1      }
- 222          
- 223          
- 224          void DaliFrameStart()
- 225          {
- 226   1              ClearBusyFlag();                                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
- 227   1              SetMDOutput();
- 228   1              SetBusyFlag();                                  //Sets the Busy Flag so the Bit can be processed
- 229   1              while(GetBusyFlag()==1);                //Waits until the Bit gets transmitted
- 230   1      
- 231   1      }
- 232          
- 233          void DaliFrameStop()
- 234          {
- 235   1              ClearBusyFlag();                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
- 236   1              SetDaliStopFlag();
- 237   1              SetBusyFlag();                  //Sets the Busy Flag so the Bit can be processed
- 238   1              while(GetBusyFlag()==1);                //Waits until the Bit gets transmitted
- 239   1      
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 09:50:41 PAGE 5   
+                                                                      break;
+                                              }
+              
+                                      if (counter-->=0)       SetBusyFlag();
+              
+              
+                              }
+              
+                      }
+              
+                      counter=7;
+              
+              }
+              
+              /*********************************************************************************
+               *********************************************************************************
+                                                       Dali TX Related Functions
+               *********************************************************************************
+               *********************************************************************************/
+              
+              
+              void ReloadDaliTxTimer(uint8_t reloadH, uint8_t reloadL)
+              {
+                      TH0 = reloadH;
+                      TL0 = reloadL;
+              }
+              
+              
+              void StartDaliTxTimer()
+              {
+              
+                      TCON |= TCON_TR0__RUN;          //Enables Timer 1 Run
+              }
+              
+              
+              uint16_t GetDaliTxTimer()
+              {
+                      return TH0|TL0;
+              }
+              
+              
+              void StopDaliTxTimer()
+              {
+              
+                      TH1 = 0;
+                      TL1 = 0;
+                      TCON |= TCON_TR0__STOP;         //Enables Timer 1 Run
+              }
+              
+              
+              void DaliFrameStart()
+              {
+                      ClearBusyFlag();                                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
+                      SetMDOutput();
+                      SetBusyFlag();                                  //Sets the Busy Flag so the Bit can be processed
+                      while(GetBusyFlag()==1);                //Waits until the Bit gets transmitted
+              
+              }
+              
+              void DaliFrameStop()
+              {
+                      ClearBusyFlag();                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
+                      SetDaliStopFlag();
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:46:12 PAGE 5   
 
- 240   1      }
- 241          
- 242          void DaliTXStateMachine(uint8_t address, uint8_t Ddata)
- 243          {
- 244   1              DALI_TXFRAME States;
- 245   1      
- 246   1              SetDaliOutputPin();                     //The Line is Normally High
- 247   1              States = START;
- 248   1      
- 249   1              while (States<END)
- 250   1              {
- 251   2                      switch (States)
- 252   2                      {
- 253   3                              case START: {
- 254   4                                                              DaliFrameStart();
- 255   4                                                              States= ADDRESS;
- 256   4                                                              break;
- 257   4                                                      }
- 258   3      
- 259   3                              case ADDRESS: {
- 260   4                                                              ManchesterEncoder(address);
- 261   4                                                              States= DATA;
- 262   4                                                              break;
- 263   4                                                      }
- 264   3      
- 265   3                              case DATA: {
- 266   4                                                              ManchesterEncoder(Ddata);
- 267   4                                                              States= STOP;
- 268   4                                                              break;
- 269   4                                                      }
- 270   3      
- 271   3                              case STOP: {
- 272   4                                                              DaliFrameStop();
- 273   4                                                              States= END;
- 274   4                                                              break;
- 275   4                                                      }
- 276   3      
- 277   3                      }
- 278   2              }
- 279   1      
- 280   1      }
- 281          /*Dali Stop bit Flag Getters and Setters*/
- 282          
- 283          void SetDaliStopFlag()
- 284          {
- 285   1              DaliStopFlag =1;
- 286   1      }
- 287          
- 288          void ClearDaliStopFlag()
- 289          {
- 290   1              DaliStopFlag =0;
- 291   1      }
- 292          
- 293          bit GetDaliStopFlag()
- 294          {
- 295   1       return DaliStopFlag;
- 296   1      }
- 297          
- 298          
- 299          void SetDaliOutputPin()
- 300          {
- 301   1              DALI_OUT=1;
- 302   1      }
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 09:50:41 PAGE 6   
+                      SetBusyFlag();                  //Sets the Busy Flag so the Bit can be processed
+                      while(GetBusyFlag()==1);                //Waits until the Bit gets transmitted
+              
+              }
+              
+              void DaliTXStateMachine(uint8_t address, uint8_t Ddata)
+              {
+                      DALI_TXFRAME States;
+              
+                      SetDaliOutputPin();                     //The Line is Normally High
+                      States = START;
+              
+                      while (States<END)
+                      {
+                              switch (States)
+                              {
+                                      case START: {
+                                                                      DaliFrameStart();
+                                                                      States= ADDRESS;
+                                                                      break;
+                                                              }
+              
+                                      case ADDRESS: {
+                                                                      ManchesterEncoder(address);
+                                                                      States= DATA;
+                                                                      break;
+                                                              }
+              
+                                      case DATA: {
+                                                                      ManchesterEncoder(Ddata);
+                                                                      States= STOP;
+                                                                      break;
+                                                              }
+              
+                                      case STOP: {
+                                                                      DaliFrameStop();
+                                                                      States= END;
+                                                                      break;
+                                                              }
+              
+                              }
+                      }
+              
+              }
+              /*Dali Stop bit Flag Getters and Setters*/
+              
+              void SetDaliStopFlag()
+              {
+                      DaliStopFlag =1;
+              }
+              
+              void ClearDaliStopFlag()
+              {
+                      DaliStopFlag =0;
+              }
+              
+              bit GetDaliStopFlag()
+              {
+               return DaliStopFlag;
+              }
+              
+              
+              void SetDaliOutputPin()
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:46:12 PAGE 6   
 
- 303          
- 304          void ClearDaliOutputPin()
- 305          {
- 306   1              DALI_OUT=0;
- 307   1      }
- 308          
- 309          bit GetDaliOutputPin()
- 310          {
- 311   1       return DALI_OUT;
- 312   1      }
- 313          
- 314          void DaliTxHandler()
- 315          {
- 316   1              static uint8_t counter = 0;
- 317   1              static uint8_t evcounter = 0;
- 318   1      
- 319   1              if (GetBusyFlag())
- 320   1              {
- 321   2                      if (evcounter++==15)
- 322   2                              {evcounter=0;}
- 323   2                      if (GetDaliStopFlag()==0)               //Are these the Stop Bits?
- 324   2                      {
- 325   3      
- 326   3                              //The next lines implement the two steps of the Manchester Decoding
- 327   3                              if (counter==0)                                 //Process First Part of the Byte
- 328   3                              {
- 329   4                                      if (GetMDOutput()==0) SetDaliOutputPin();
- 330   4                                      else ClearDaliOutputPin();
- 331   4                                      counter++;
- 332   4                              }
- 333   3                              else
- 334   3                              {                                                               //Process 2nd Part of the Byte
- 335   4      
- 336   4                                      if (GetMDOutput()==0) ClearDaliOutputPin();
- 337   4                                      else SetDaliOutputPin();
- 338   4                                      counter=0;
- 339   4      
- 340   4                                      ClearBusyFlag();                //Finished Processing Byte for Manchester Encoder
- 341   4                              }
- 342   3      
- 343   3                      }
- 344   2                      else                            //Yes, This is the Stop bits stage
- 345   2                              {
- 346   3                                      if (counter++<4)        SetDaliOutputPin();             //It keeps the Output High for 4 Cyscles of the Timer
- 347   3                                      else{
- 348   4                                                      SetDaliOutputPin();             //The Line is normally High;
- 349   4                                                      counter=0;
- 350   4                                                      ClearDaliStopFlag();
- 351   4                                                      ClearBusyFlag();                //Finished Processing Byte for Manchester Encoder
- 352   4                                              }
- 353   3                              }
- 354   2                      }
- 355   1      
- 356   1      }
- 357          
- 358          /*********************************************************************************
- 359           *********************************************************************************
- 360                                                   Dali RX Related Functions
- 361           *********************************************************************************
- 362           *********************************************************************************/
- 363          uint8_t BusQuietCounter;
- 364          
- 365          bit GetDaliIntputPin()
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 09:50:41 PAGE 7   
+              {
+                      DALI_OUT=1;
+              }
+              
+              void ClearDaliOutputPin()
+              {
+                      DALI_OUT=0;
+              }
+              
+              bit GetDaliOutputPin()
+              {
+               return DALI_OUT;
+              }
+              
+              void DaliTxHandler()
+              {
+                      static uint8_t counter = 0;
+                      static uint8_t evcounter = 0;
+              
+                      if (GetBusyFlag())
+                      {
+                              if (evcounter++==15)
+                                      {evcounter=0;}
+                              if (GetDaliStopFlag()==0)               //Are these the Stop Bits?
+                              {
+              
+                                      //The next lines implement the two steps of the Manchester Decoding
+                                      if (counter==0)                                 //Process First Part of the Byte
+                                      {
+                                              if (GetMDOutput()==0) SetDaliOutputPin();
+                                              else ClearDaliOutputPin();
+                                              counter++;
+                                      }
+                                      else
+                                      {                                                               //Process 2nd Part of the Byte
+              
+                                              if (GetMDOutput()==0) ClearDaliOutputPin();
+                                              else SetDaliOutputPin();
+                                              counter=0;
+              
+                                              ClearBusyFlag();                //Finished Processing Byte for Manchester Encoder
+                                      }
+              
+                              }
+                              else                            //Yes, This is the Stop bits stage
+                                      {
+                                              if (counter++<4)        SetDaliOutputPin();             //It keeps the Output High for 4 Cyscles of the Timer
+                                              else{
+                                                              SetDaliOutputPin();             //The Line is normally High;
+                                                              counter=0;
+                                                              ClearDaliStopFlag();
+                                                              ClearBusyFlag();                //Finished Processing Byte for Manchester Encoder
+                                                      }
+                                      }
+                              }
+              
+              }
+              
+              /*********************************************************************************
+               *********************************************************************************
+                                                       Dali RX Related Functions
+               *********************************************************************************
+               *********************************************************************************/
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:46:12 PAGE 7   
 
- 366          {
- 367   1       return DALI_IN;
- 368   1      }
- 369          
- 370          void EnableDaliRxTimerInt()
- 371          {
- 372   1              IE |= IE_ET1__ENABLED;
- 373   1      }
- 374          
- 375          void DisableDaliRxTimerInt()
- 376          {
- 377   1              IE &= 0xf7;
- 378   1      }
- 379          
- 380          
- 381          void ReloadDaliRxTimer(uint8_t reloadH, uint8_t reloadL)
- 382          {
- 383   1              TH1 = reloadH;
- 384   1              TL1 = reloadL;
- 385   1      }
- 386          
- 387          void StartDaliRxTimer()
- 388          {
- 389   1      
- 390   1              TH1 = 0;
- 391   1              TL1 = 0;
- 392   1              TCON |= TCON_TR1__RUN;          //Enables Timer 1 Run
- 393   1      }
- 394          
- 395          
- 396          uint16_t GetDaliRxTimer()
- 397          {
- 398   1              return TH1|TL1;
- 399   1      }
- 400          
- 401          
- 402          void StopDaliRxTimer()
- 403          {
- 404   1      
- 405   1              TH1 = 0;
- 406   1              TL1 = 0;
- 407   1              TCON |= TCON_TR1__STOP;         //Enables Timer 1 Run
- 408   1      }
- 409          
- 410          void QueryDaliBus()
- 411          {
- 412   1              static counter=0;
- 413   1      
- 414   1              if ((GetDaliIntputPin()==1) && (counter++==3))
- 415   1              {
- 416   2                      counter=0;
- 417   2                      if(GetBusQuietCounter()<=254) IncBusQuietCounter();
- 418   2              }
- 419   1              if (GetDaliIntputPin()==0)
- 420   1              {
- 421   2                      counter=0;
- 422   2                      ClearBusQuietCounter();
- 423   2              }
- 424   1      }
- 425          
- 426          
- 427          void IncBusQuietCounter()
- 428          {
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 09:50:41 PAGE 8   
+              uint8_t BusQuietCounter;
+              
+              bit GetDaliIntputPin()
+              {
+               return DALI_IN;
+              }
+              
+              void EnableDaliRxTimerInt()
+              {
+                      IE |= IE_ET1__ENABLED;
+              }
+              
+              void DisableDaliRxTimerInt()
+              {
+                      IE &= 0xf7;
+              }
+              
+              
+              void ReloadDaliRxTimer(uint8_t reloadH, uint8_t reloadL)
+              {
+                      TH1 = reloadH;
+                      TL1 = reloadL;
+              }
+              
+              void StartDaliRxTimer()
+              {
+              
+                      TH1 = 0;
+                      TL1 = 0;
+                      TCON |= TCON_TR1__RUN;          //Enables Timer 1 Run
+              }
+              
+              
+              uint16_t GetDaliRxTimer()
+              {
+                      return TH1|TL1;
+              }
+              
+              
+              void StopDaliRxTimer()
+              {
+              
+                      TH1 = 0;
+                      TL1 = 0;
+                      TCON |= TCON_TR1__STOP;         //Enables Timer 1 Run
+              }
+              
+              void QueryDaliBus()
+              {
+                      static counter=0;
+              
+                      if ((GetDaliIntputPin()==1) && (counter++==3))
+                      {
+                              counter=0;
+                              if(GetBusQuietCounter()<=254) IncBusQuietCounter();
+                      }
+                      if (GetDaliIntputPin()==0)
+                      {
+                              counter=0;
+                              ClearBusQuietCounter();
+                      }
+              }
+              
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 11:46:12 PAGE 8   
 
- 429   1              BusQuietCounter++;
- 430   1      }
- 431          
- 432          void ClearBusQuietCounter()
- 433          {
- 434   1              BusQuietCounter=0;
- 435   1      }
- 436          
- 437          uint8_t GetBusQuietCounter()
- 438          {
- 439   1              return BusQuietCounter;
- 440   1      }
- 441          
- 442          
- 443          void SetDaliInputPinPolarity (INTPOLARITY input)
- 444          {
- 445   1              if (input==ACTIVE_HIGH) IT01CF |= 0x80;
- 446   1              else IT01CF &=0x7f;
- 447   1      }
- 448          
- 449          
- 450          void EnableInt1 ()
- 451          {
- 452   1              IE |= 0x4;
- 453   1      }
- 454          
- 455          void DisableInt1 ()
- 456          {
- 457   1              IE &= 0xfb;
- 458   1      }
- 459          
+              
+              void IncBusQuietCounter()
+              {
+                      BusQuietCounter++;
+              }
+              
+              void ClearBusQuietCounter()
+              {
+                      BusQuietCounter=0;
+              }
+              
+              uint8_t GetBusQuietCounter()
+              {
+                      return BusQuietCounter;
+              }
+              
+              
+              void SetDaliInputPinPolarity (INTPOLARITY input)
+              {
+                      if (input==ACTIVE_HIGH) IT01CF |= 0x80;
+                      else IT01CF &=0x7f;
+              }
+              
+              
+              void EnableInt1 ()
+              {
+                      IE |= 0x4;
+              }
+              
+              void DisableInt1 ()
+              {
+                      IE &= 0xfb;
+              }
+              
+              #endif
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    575    ----
+   CODE SIZE        =     56    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      7       5
+   DATA SIZE        =   ----       3
    IDATA SIZE       =   ----    ----
-   BIT SIZE         =      3    ----
+   BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----
    XDATA CONST SIZE =   ----    ----
