@@ -1,4 +1,4 @@
-LX51 LINKER/LOCATER V4.66.30.0                                                          03/07/2016  09:50:42  PAGE 1
+LX51 LINKER/LOCATER V4.66.30.0                                                          03/07/2016  11:34:26  PAGE 1
 
 
 LX51 LINKER/LOCATER V4.66.30.0, INVOKED BY:
@@ -64,7 +64,7 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 000013H   000015H   000003H   BYTE   OFFS..   CODE           ?INTERRUPTS?00013
 000016H   000019H   000004H   BYTE   UNIT     CODE           ?PR?CLEARBUSQUIETCOUNTER?EFM8UB1_TIMER0_8BITRELOAD
 00001AH   00001AH   000001H   ---    ---      **GAP**
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 2
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 2
 
 
 00001BH   00001DH   000003H   BYTE   OFFS..   CODE           ?INTERRUPTS?0001B
@@ -129,7 +129,7 @@ FUNCTION/MODULE                               DATA_GROUP   XDATA_GROUP
 --> CALLED FUNCTION/MODULE                    START  STOP  START  STOP
 ======================================================================
 TIMER1_ISR/INTERRUPTS                         ----- -----  0000H 0027H
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 3
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 3
 
 
   +--> _RELOADDALITXTIMER/EFM8UB1_TIMER0_8BITRELOAD
@@ -194,7 +194,7 @@ CLEARBUSQUIETCOUNTER/EFM8UB1_TIMER0_8BIT+     ----- -----  ----- -----
 ... RELOAD
 
 *** NEW ROOT ********************************
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 4
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 4
 
 
 
@@ -259,7 +259,7 @@ INTERRUPT_0_ENTER_DEFAULTMODE_FROM_RESET+     ----- -----  ----- -----
 ... /INITDEVICE
 
 _DALITXSTATEMACHINE/EFM8UB1_TIMER0_8BITR+     0012H 0013H  ----- -----
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 5
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 5
 
 
 ... ELOAD
@@ -324,7 +324,7 @@ PUBLIC SYMBOLS OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0
 *SFR* 000000E0H.7 DATA     BIT       ACC_ACC7
 *SFR* 000000BDH   DATA     WORD      ADC0
 *SFR* 000000B3H   DATA     BYTE      ADC0AC
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 6
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 6
 
 
 *SFR* 000000BCH   DATA     BYTE      ADC0CF
@@ -389,7 +389,7 @@ PUBLIC SYMBOLS OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0
       00000020H.0 BIT      BIT       DaliStopFlag
       010002D5H   CODE     ---       DaliTxHandler
 *SFR* 000000ADH   DATA     BYTE      DERIVID
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 7
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 7
 
 
 *SFR* 000000B5H   DATA     BYTE      DEVICEID
@@ -454,7 +454,7 @@ PUBLIC SYMBOLS OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0
 *SFR* 00000090H.4 DATA     BIT       LED2
 *SFR* 000000B1H   DATA     BYTE      LFO0CN
       010003ADH   CODE     ---       main
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 8
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 8
 
 
       00000020H.1 BIT      BIT       MDone
@@ -519,7 +519,7 @@ PUBLIC SYMBOLS OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0
 *SFR* 000000FCH   DATA     BYTE      PCA0CPH0
 *SFR* 000000EAH   DATA     BYTE      PCA0CPH1
 *SFR* 000000ECH   DATA     BYTE      PCA0CPH2
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 9
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 9
 
 
 *SFR* 000000FBH   DATA     BYTE      PCA0CPL0
@@ -584,7 +584,7 @@ PUBLIC SYMBOLS OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0
 *SFR* 000000A7H   DATA     BYTE      SFRPAGE
 *SFR* 000000CFH   DATA     BYTE      SFRPGCN
 *SFR* 000000D7H   DATA     BYTE      SFRSTACK
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 10
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 10
 
 
 *SFR* 000000D6H   DATA     BYTE      SMB0ADM
@@ -649,7 +649,7 @@ PUBLIC SYMBOLS OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0
 *SFR* 000000C8H.3 DATA     BIT       TMR2CN0_T2SPLIT
 *SFR* 000000C8H   DATA     BIT       TMR2CN0_T2XCLK0
 *SFR* 000000C8H.1 DATA     BIT       TMR2CN0_T2XCLK1
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 11
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 11
 
 
 *SFR* 000000C8H.4 DATA     BIT       TMR2CN0_TF2CEN
@@ -714,7 +714,7 @@ PUBLIC SYMBOLS OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0
 *SFR* 000000E2H   DATA     BYTE      XBR1
 *SFR* 000000E3H   DATA     BYTE      XBR2
 
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 12
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 12
 
 
 
@@ -779,7 +779,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000ADH   SFRSYM    DATA     BYTE      DERIVID
       000000A7H   SFRSYM    DATA     BYTE      SFRPAGE
       000000A4H   SFRSYM    DATA     BYTE      P0MDOUT
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 13
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 13
 
 
       000000BFH   SFRSYM    DATA     BYTE      USB0CDSTA
@@ -844,7 +844,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000E0H.1 SFRSYM    DATA     BIT       ACC_ACC1
       000000C9H   SFRSYM    DATA     BYTE      REG0CN
       000000DDH   SFRSYM    DATA     BYTE      CRC0IN
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 14
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 14
 
 
       000000A6H   SFRSYM    DATA     BYTE      CKCON1
@@ -909,7 +909,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000CFH   SFRSYM    DATA     BYTE      CRC0FLIP
       000000D0H   SFRSYM    DATA     BIT       PSW_PARITY
       000000A8H.4 SFRSYM    DATA     BIT       IE_ES0
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 15
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 15
 
 
       0000009FH   SFRSYM    DATA     BYTE      CMP0MX
@@ -974,7 +974,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000B8H.2 SFRSYM    DATA     BIT       IP_PX1
       0000009EH   SFRSYM    DATA     BYTE      UART1LIN
       0000009BH   SFRSYM    DATA     BYTE      CMP0CN0
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 16
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 16
 
 
       00000088H.1 SFRSYM    DATA     BIT       TCON_IE0
@@ -1039,7 +1039,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000FDH   SFRSYM    DATA     BYTE      P0MAT
       000000DEH   SFRSYM    DATA     BYTE      CRC0DAT
       00000088H.2 SFRSYM    DATA     BIT       TCON_IT1
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 17
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 17
 
 
       000000E8H.2 SFRSYM    DATA     BIT       ADC0CN0_ADCM2
@@ -1104,7 +1104,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000D0H   SFRSYM    DATA     BYTE      PSW
       000000F7H   SFRSYM    DATA     BYTE      PCA0PWM
       000000F7H   SFRSYM    DATA     BYTE      SPI0FCT
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 18
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 18
 
 
       000000B6H   SFRSYM    DATA     BYTE      REVID
@@ -1169,7 +1169,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       010001A5H   BLOCK     CODE     ---       LVL=0
       00000007H   SYMBOL    DATA     BYTE      input
       010001A5H   BLOCK     CODE     NEAR LAB  LVL=1
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 19
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 19
 
 
       00000008H   SYMBOL    DATA     ---       Input
@@ -1234,7 +1234,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
 
       01000471H   BLOCK     CODE     ---       LVL=0
       01000471H   LINE      CODE     ---       #233
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 20
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 20
 
 
       01000471H   LINE      CODE     ---       #234
@@ -1299,7 +1299,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       ---         BLOCKEND  ---      ---       LVL=0
 
       010004F4H   BLOCK     CODE     ---       LVL=0
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 21
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 21
 
 
       010004F4H   LINE      CODE     ---       #293
@@ -1364,7 +1364,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       010004FDH   BLOCK     CODE     ---       LVL=0
       010004FDH   LINE      CODE     ---       #365
       010004FDH   LINE      CODE     ---       #366
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 22
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 22
 
 
       010004FDH   LINE      CODE     ---       #367
@@ -1429,7 +1429,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       01000016H   LINE      CODE     ---       #433
       01000016H   LINE      CODE     ---       #434
       01000019H   LINE      CODE     ---       #435
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 23
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 23
 
 
       ---         BLOCKEND  ---      ---       LVL=0
@@ -1494,7 +1494,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000ADH   SFRSYM    DATA     BYTE      DERIVID
       000000A7H   SFRSYM    DATA     BYTE      SFRPAGE
       000000A4H   SFRSYM    DATA     BYTE      P0MDOUT
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 24
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 24
 
 
       000000BFH   SFRSYM    DATA     BYTE      USB0CDSTA
@@ -1559,7 +1559,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000C9H   SFRSYM    DATA     BYTE      REG0CN
       000000DDH   SFRSYM    DATA     BYTE      CRC0IN
       000000A6H   SFRSYM    DATA     BYTE      CKCON1
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 25
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 25
 
 
       000000C8H.2 SFRSYM    DATA     BIT       TMR2CN0_TR2
@@ -1624,7 +1624,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000A8H.4 SFRSYM    DATA     BIT       IE_ES0
       0000009FH   SFRSYM    DATA     BYTE      CMP0MX
       00000098H   SFRSYM    DATA     BIT       TMR4CN0_T4XCLK0
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 26
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 26
 
 
       000000A8H.1 SFRSYM    DATA     BIT       IE_ET0
@@ -1689,7 +1689,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       00000088H.1 SFRSYM    DATA     BIT       TCON_IE0
       000000A0H   SFRSYM    DATA     BIT       P2_B0
       00000090H.1 SFRSYM    DATA     BIT       P1_B1
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 27
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 27
 
 
       00000080H.2 SFRSYM    DATA     BIT       P0_B2
@@ -1754,7 +1754,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000E8H.2 SFRSYM    DATA     BIT       ADC0CN0_ADCM2
       000000D7H   SFRSYM    DATA     BYTE      SFRSTACK
       00000098H   SFRSYM    DATA     BYTE      SCON0
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 28
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 28
 
 
       000000F6H   SFRSYM    DATA     BYTE      PRTDRV
@@ -1819,7 +1819,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000B7H   SFRSYM    DATA     BYTE      FLKEY
       000000B3H   SFRSYM    DATA     BYTE      ADC0AC
 
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 29
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 29
 
 
       01000446H   BLOCK     CODE     ---       LVL=0
@@ -1884,7 +1884,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       ---         BLOCKEND  ---      ---       LVL=0
 
       010004B0H   BLOCK     CODE     ---       LVL=0
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 30
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 30
 
 
       010004B0H   LINE      CODE     ---       #222
@@ -1949,7 +1949,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000BDH   SFRSYM    DATA     BYTE      I2C0SLAD
       000000D8H.3 SFRSYM    DATA     BIT       UART1FCN1_RFRQ
       000000F0H.2 SFRSYM    DATA     BIT       B_B2
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 31
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 31
 
 
       000000CFH   SFRSYM    DATA     BYTE      SFRPGCN
@@ -2014,7 +2014,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000C0H.3 SFRSYM    DATA     BIT       SMB0CN0_ACKRQ
       000000FFH   SFRSYM    DATA     BYTE      VDM0CN
       000000F1H   SFRSYM    DATA     BYTE      P0MDIN
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 32
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 32
 
 
       00000098H.4 SFRSYM    DATA     BIT       SCON0_REN
@@ -2079,7 +2079,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000CAH   SFRSYM    DATA     WORD      TMR2RL
       000000BDH   SFRSYM    DATA     BYTE      ADC0L
       00000092H   SFRSYM    DATA     WORD      TMR3RL
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 33
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 33
 
 
       000000A2H   SFRSYM    DATA     WORD      TMR4RL
@@ -2144,7 +2144,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       00000080H.7 SFRSYM    DATA     BIT       P0_B7
       000000C5H   SFRSYM    DATA     BYTE      SMB0RXLN
       000000F6H   SFRSYM    DATA     BYTE      EIP2H
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 34
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 34
 
 
       00000090H.7 SFRSYM    DATA     BIT       P1_B7
@@ -2209,7 +2209,7 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       000000C8H.4 SFRSYM    DATA     BIT       TMR2CN0_TF2CEN
       00000088H.6 SFRSYM    DATA     BIT       TCON_TR1
       000000C2H   SFRSYM    DATA     BYTE      SMB0DAT
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 35
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 35
 
 
       000000CDH   SFRSYM    DATA     BYTE      TMR2H
@@ -2259,41 +2259,41 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       02000053H   SYMBOL    XDATA    BYTE      Bunter
       ---         BLOCKEND  ---      ---       LVL=1
       0100001EH   LINE      CODE     ---       #41
-      0100003BH   LINE      CODE     ---       #49
-      01000042H   LINE      CODE     ---       #51
-      0100004DH   LINE      CODE     ---       #53
-      0100004DH   LINE      CODE     ---       #55
+      0100003BH   LINE      CODE     ---       #50
+      01000042H   LINE      CODE     ---       #52
+      0100004DH   LINE      CODE     ---       #54
       0100004DH   LINE      CODE     ---       #56
       0100004DH   LINE      CODE     ---       #57
       0100004DH   LINE      CODE     ---       #58
-      0100004DH   LINE      CODE     ---       #60
+      0100004DH   LINE      CODE     ---       #59
       0100004DH   LINE      CODE     ---       #61
-      0100004DH   LINE      CODE     ---       #63
-      01000053H   LINE      CODE     ---       #64
+      0100004DH   LINE      CODE     ---       #62
+      0100004DH   LINE      CODE     ---       #64
       01000053H   LINE      CODE     ---       #65
-      01000058H   LINE      CODE     ---       #66
-      0100005DH   LINE      CODE     ---       #67
-      01000075H   LINE      CODE     ---       #69
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 36
+      01000053H   LINE      CODE     ---       #66
+      01000058H   LINE      CODE     ---       #67
+      0100005DH   LINE      CODE     ---       #68
+      01000075H   LINE      CODE     ---       #70
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 36
 
 
-      01000075H   LINE      CODE     ---       #72
-      01000080H   LINE      CODE     ---       #73
-      01000085H   LINE      CODE     ---       #74
-      0100008AH   LINE      CODE     ---       #75
-      010000A2H   LINE      CODE     ---       #91
-      010000A7H   LINE      CODE     ---       #92
-      010000A7H   LINE      CODE     ---       #94
-      010000BBH   LINE      CODE     ---       #97
-      010000C2H   LINE      CODE     ---       #98
+      01000075H   LINE      CODE     ---       #73
+      01000080H   LINE      CODE     ---       #74
+      01000085H   LINE      CODE     ---       #75
+      0100008AH   LINE      CODE     ---       #76
+      010000A2H   LINE      CODE     ---       #92
+      010000A7H   LINE      CODE     ---       #93
+      010000A7H   LINE      CODE     ---       #95
+      010000BBH   LINE      CODE     ---       #98
       010000C2H   LINE      CODE     ---       #99
-      010000C4H   LINE      CODE     ---       #100
-      010000C7H   LINE      CODE     ---       #101
-      010000CCH   LINE      CODE     ---       #102
-      010000CCH   LINE      CODE     ---       #104
+      010000C2H   LINE      CODE     ---       #100
+      010000C4H   LINE      CODE     ---       #101
+      010000C7H   LINE      CODE     ---       #102
+      010000CCH   LINE      CODE     ---       #103
       010000CCH   LINE      CODE     ---       #105
-      010000CCH   LINE      CODE     ---       #107
-      010000CCH   LINE      CODE     ---       #110
+      010000CCH   LINE      CODE     ---       #106
+      010000CCH   LINE      CODE     ---       #108
+      010000CCH   LINE      CODE     ---       #111
       ---         BLOCKEND  ---      ---       LVL=0
 
       0100032AH   BLOCK     CODE     ---       LVL=0
@@ -2303,11 +2303,11 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       02000030H   SYMBOL    XDATA    ---       BitBuffer
       02000055H   SYMBOL    XDATA    BYTE      Bunter
       ---         BLOCKEND  ---      ---       LVL=1
-      0100032AH   LINE      CODE     ---       #123
-      01000347H   LINE      CODE     ---       #131
-      0100034EH   LINE      CODE     ---       #132
-      01000351H   LINE      CODE     ---       #133
-      01000354H   LINE      CODE     ---       #196
+      0100032AH   LINE      CODE     ---       #124
+      01000347H   LINE      CODE     ---       #132
+      0100034EH   LINE      CODE     ---       #133
+      01000351H   LINE      CODE     ---       #134
+      01000354H   LINE      CODE     ---       #197
       ---         BLOCKEND  ---      ---       LVL=0
 
       010000E7H   BLOCK     CODE     ---       LVL=0
@@ -2315,40 +2315,40 @@ SYMBOL TABLE OF MODULE:  EFM8UB1_TIMER0_8BITRELOAD.OMF.CRBUILD (EFM8UB1_TIMER0_8
       02000056H   SYMBOL    XDATA    BYTE      counter
       02000050H   SYMBOL    XDATA    WORD      timerRead
       ---         BLOCKEND  ---      ---       LVL=1
-      010000E7H   LINE      CODE     ---       #210
-      01000104H   LINE      CODE     ---       #224
-      01000118H   LINE      CODE     ---       #225
+      010000E7H   LINE      CODE     ---       #211
+      01000104H   LINE      CODE     ---       #225
       01000118H   LINE      CODE     ---       #226
-      01000123H   LINE      CODE     ---       #227
-      01000126H   LINE      CODE     ---       #228
-      0100012BH   LINE      CODE     ---       #229
-      01000130H   LINE      CODE     ---       #230
-      01000130H   LINE      CODE     ---       #233
-      0100013BH   LINE      CODE     ---       #234
+      01000118H   LINE      CODE     ---       #227
+      01000123H   LINE      CODE     ---       #228
+      01000126H   LINE      CODE     ---       #229
+      0100012BH   LINE      CODE     ---       #230
+      01000130H   LINE      CODE     ---       #231
+      01000130H   LINE      CODE     ---       #234
       0100013BH   LINE      CODE     ---       #235
-      01000140H   LINE      CODE     ---       #236
-      01000145H   LINE      CODE     ---       #237
-      01000150H   LINE      CODE     ---       #240
-      01000150H   LINE      CODE     ---       #242
-      01000156H   LINE      CODE     ---       #243
+      0100013BH   LINE      CODE     ---       #236
+      01000140H   LINE      CODE     ---       #237
+      01000145H   LINE      CODE     ---       #238
+      01000150H   LINE      CODE     ---       #241
+      01000150H   LINE      CODE     ---       #243
       01000156H   LINE      CODE     ---       #244
-      01000159H   LINE      CODE     ---       #245
-      01000160H   LINE      CODE     ---       #246
-      01000166H   LINE      CODE     ---       #247
-      01000169H   LINE      CODE     ---       #248
-      0100016FH   LINE      CODE     ---       #249
-      01000174H   LINE      CODE     ---       #250
-      01000178H   LINE      CODE     ---       #251
-LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  09:50:42  PAGE 37
+      01000156H   LINE      CODE     ---       #245
+      01000159H   LINE      CODE     ---       #246
+      01000160H   LINE      CODE     ---       #247
+      01000166H   LINE      CODE     ---       #248
+      01000169H   LINE      CODE     ---       #249
+      0100016FH   LINE      CODE     ---       #250
+      01000174H   LINE      CODE     ---       #251
+      01000178H   LINE      CODE     ---       #252
+LX51 LINKER/LOCATER V4.66.30.0                                                        03/07/2016  11:34:26  PAGE 37
 
 
-      0100017BH   LINE      CODE     ---       #253
-      0100017DH   LINE      CODE     ---       #254
-      01000184H   LINE      CODE     ---       #255
+      0100017BH   LINE      CODE     ---       #254
+      0100017DH   LINE      CODE     ---       #255
       01000184H   LINE      CODE     ---       #256
-      01000186H   LINE      CODE     ---       #257
-      0100018AH   LINE      CODE     ---       #258
-      0100018AH   LINE      CODE     ---       #346
+      01000184H   LINE      CODE     ---       #257
+      01000186H   LINE      CODE     ---       #258
+      0100018AH   LINE      CODE     ---       #259
+      0100018AH   LINE      CODE     ---       #347
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       ?C_STARTUP

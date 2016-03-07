@@ -41,6 +41,7 @@ SI_SBIT (LED2,SFR_P1, 4);			   //PB0 Switch Definition
 SI_INTERRUPT (TIMER1_ISR, TIMER1_IRQn)
 {
 
+
 static xdata uint8_t counter = 0;
 xdata uint8_t buffer[8];
 xdata uint8_t BitBuffer[32];
