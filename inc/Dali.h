@@ -11,7 +11,8 @@
 #define TMH	0xff
 #define TML	0x2B
 
-
+#define STMH TMH
+#define STML 0x95
 //-----------------------------------------------------------------------------
 #include <SI_EFM8UB1_Register_Enums.h>
 //#include "InitDevice.h"
@@ -30,6 +31,23 @@ typedef union bits_byte
 						} nybble;
 					uint8_t Abyte;
 					} BITS_BYTE;
+
+
+typedef union daliflags
+				{
+					struct{
+								uint8_t Busy:1;
+								uint8_t Output:1;
+								uint8_t Stop:1;
+								uint8_t Error:1;
+								uint8_t NU1:1;
+								uint8_t NU2:1;
+								uint8_t NU3:1;
+								uint8_t NU4:1;
+							} flag;
+								uint8_t DRegister;
+						} DALIFLAGS;
+
 typedef enum
 			{
 				START=0,
@@ -64,6 +82,8 @@ bit GetMDOutput();
 void SetMDOutput();
 void ClearMDOutput();
 
+void EnableDaliRxTimerInt();
+void DisableDaliRxTimerInt();
 void ReloadDaliTxTimer(uint8_t reloadH, uint8_t reloadL);
 void StartDaliTxTimer();
 uint16_t GetDaliTxTimer();
@@ -85,6 +105,7 @@ bit GetDaliStopFlag();
 
 //Dali RX
 
+void ReloadDaliRxTimer(uint8_t reloadH, uint8_t reloadL);
 void StartDaliRxTimer();
 void StopDaliRxTimer();
 uint16_t GetDaliRxTimer();

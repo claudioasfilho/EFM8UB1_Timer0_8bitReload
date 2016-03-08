@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 13:03:47 PAGE 1   
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 15:59:07 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE INITDEVICE
@@ -63,7 +63,7 @@ line level    source
   48          //================================================================================
   49          extern void WDT_0_enter_DefaultMode_from_RESET(void) {
   50   1              // $[WDTCN - Watchdog Timer Control]
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 13:03:47 PAGE 2   
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 15:59:07 PAGE 2   
 
   51   1              //Disable Watchdog with key sequence
   52   1              WDTCN = 0xDE; //First key
@@ -128,7 +128,7 @@ line level    source
  111          //================================================================================
  112          extern void PBCFG_0_enter_DefaultMode_from_RESET(void) {
  113   1              // $[XBR2 - Port I/O Crossbar 2]
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 13:03:47 PAGE 3   
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 15:59:07 PAGE 3   
 
  114   1              /*
  115   1              // WEAKPUD (Port I/O Weak Pullup Disable) = PULL_UPS_ENABLED (Weak
@@ -193,7 +193,7 @@ line level    source
  174   1              //     byte uses the clock defined by T2XCLK in TMR2CN0.)
  175   1              // T2ML (Timer 2 Low Byte Clock Select) = EXTERNAL_CLOCK (Timer 2 low
  176   1              //     byte uses the clock defined by T2XCLK in TMR2CN0.)
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 13:03:47 PAGE 4   
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 15:59:07 PAGE 4   
 
  177   1              // T3MH (Timer 3 High Byte Clock Select) = EXTERNAL_CLOCK (Timer 3 high
  178   1              //     byte uses the clock defined by T3XCLK in TMR3CN0.)
@@ -242,63 +242,47 @@ line level    source
  221          // INTERRUPT_0_enter_DefaultMode_from_RESET
  222          //================================================================================
  223          extern void INTERRUPT_0_enter_DefaultMode_from_RESET(void) {
- 224   1              // $[EIE1 - Extended Interrupt Enable 1]
- 225   1              // [EIE1 - Extended Interrupt Enable 1]$
- 226   1      
- 227   1              // $[EIE2 - Extended Interrupt Enable 2]
- 228   1              // [EIE2 - Extended Interrupt Enable 2]$
- 229   1      
- 230   1              // $[EIP1H - Extended Interrupt Priority 1 High]
- 231   1              // [EIP1H - Extended Interrupt Priority 1 High]$
+ 224   1      
+ 225   1      
+ 226   1              //P0.7 pin is configured for digital mode
+ 227   1              P0MDIN |=0x80;
+ 228   1      
+ 229   1              //INT1 input is active low, Select P0.7.
+ 230   1              IT01CF = 0x70;
+ 231   1      
  232   1      
- 233   1              // $[EIP1 - Extended Interrupt Priority 1 Low]
- 234   1              // [EIP1 - Extended Interrupt Priority 1 Low]$
- 235   1      
- 236   1              // $[EIP2 - Extended Interrupt Priority 2]
- 237   1              // [EIP2 - Extended Interrupt Priority 2]$
- 238   1      
- 239   1              // $[EIP2H - Extended Interrupt Priority 2 High]
-C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 13:03:47 PAGE 5   
+ 233   1              // $[IE - Interrupt Enable]
+ 234   1              /*
+ 235   1              // EA (All Interrupts Enable) = DISABLED (Disable all interrupt sources.)
+ 236   1              // EX0 (External Interrupt 0 Enable) = DISABLED (Disable external
+ 237   1              //     interrupt 0.)
+ 238   1              // EX1 (External Interrupt 1 Enable) = DISABLED (Disable external
+ 239   1              //     interrupt 1.)
+C51 COMPILER V9.53.0.0   INITDEVICE                                                        03/07/2016 15:59:07 PAGE 5   
 
- 240   1              // [EIP2H - Extended Interrupt Priority 2 High]$
- 241   1      
- 242   1      
- 243   1              P0MDIN |=0x4;
- 244   1      
- 245   1              //INT1 input is active low, Select P0.7.
- 246   1              IT01CF = 0x70;
- 247   1      
- 248   1      
- 249   1              // $[IE - Interrupt Enable]
- 250   1              /*
- 251   1              // EA (All Interrupts Enable) = DISABLED (Disable all interrupt sources.)
- 252   1              // EX0 (External Interrupt 0 Enable) = DISABLED (Disable external
- 253   1              //     interrupt 0.)
- 254   1              // EX1 (External Interrupt 1 Enable) = DISABLED (Disable external
- 255   1              //     interrupt 1.)
- 256   1              // ESPI0 (SPI0 Interrupt Enable) = DISABLED (Disable all SPI0
- 257   1              //     interrupts.)
- 258   1              // ET0 (Timer 0 Interrupt Enable) = ENABLED (Enable interrupt requests
- 259   1              //     generated by the TF0 flag.)
- 260   1              // ET1 (Timer 1 Interrupt Enable) = DISABLED (Disable all Timer 1
- 261   1              //     interrupt.)
- 262   1              // ET2 (Timer 2 Interrupt Enable) = DISABLED (Disable Timer 2 interrupt.)
- 263   1              // ES0 (UART0 Interrupt Enable) = DISABLED (Disable UART0 interrupt.)
- 264   1              */
- 265   1              IE = IE_EA__DISABLED | IE_EX0__DISABLED | IE_EX1__ENABLED | IE_ESPI0__DISABLED
- 266   1                       | IE_ET0__ENABLED | IE_ET1__DISABLED | IE_ET2__DISABLED | IE_ES0__DISABLED;
- 267   1              // [IE - Interrupt Enable]$
- 268   1      
- 269   1              // $[IP - Interrupt Priority]
- 270   1              // [IP - Interrupt Priority]$
- 271   1      
- 272   1              // $[IPH - Interrupt Priority High]
- 273   1              // [IPH - Interrupt Priority High]$
- 274   1      
- 275   1      
- 276   1      }
- 277          
- 278          
+ 240   1              // ESPI0 (SPI0 Interrupt Enable) = DISABLED (Disable all SPI0
+ 241   1              //     interrupts.)
+ 242   1              // ET0 (Timer 0 Interrupt Enable) = ENABLED (Enable interrupt requests
+ 243   1              //     generated by the TF0 flag.)
+ 244   1              // ET1 (Timer 1 Interrupt Enable) = DISABLED (Disable all Timer 1
+ 245   1              //     interrupt.)
+ 246   1              // ET2 (Timer 2 Interrupt Enable) = DISABLED (Disable Timer 2 interrupt.)
+ 247   1              // ES0 (UART0 Interrupt Enable) = DISABLED (Disable UART0 interrupt.)
+ 248   1              */
+ 249   1              IE = IE_EA__DISABLED | IE_EX0__DISABLED | IE_EX1__ENABLED | IE_ESPI0__DISABLED
+ 250   1                       | IE_ET0__ENABLED | IE_ET1__DISABLED | IE_ET2__DISABLED | IE_ES0__DISABLED;
+ 251   1              // [IE - Interrupt Enable]$
+ 252   1      
+ 253   1              // $[IP - Interrupt Priority]
+ 254   1              // [IP - Interrupt Priority]$
+ 255   1      
+ 256   1              // $[IPH - Interrupt Priority High]
+ 257   1              // [IPH - Interrupt Priority High]$
+ 258   1      
+ 259   1      
+ 260   1      }
+ 261          
+ 262          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

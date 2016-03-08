@@ -68,6 +68,7 @@ void main (void)
    PRTDRV |=0x1;							//Enable high drive strength on P0
    SetDaliInputPinPolarity(ACTIVE_LOW);
 
+
    while (1) {
 	   DALI_OUT=1;
 	   if (PB0_SW==0) {

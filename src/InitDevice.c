@@ -221,26 +221,10 @@ extern void TIMER_SETUP_0_enter_DefaultMode_from_RESET(void) {
 // INTERRUPT_0_enter_DefaultMode_from_RESET
 //================================================================================
 extern void INTERRUPT_0_enter_DefaultMode_from_RESET(void) {
-	// $[EIE1 - Extended Interrupt Enable 1]
-	// [EIE1 - Extended Interrupt Enable 1]$
-
-	// $[EIE2 - Extended Interrupt Enable 2]
-	// [EIE2 - Extended Interrupt Enable 2]$
-
-	// $[EIP1H - Extended Interrupt Priority 1 High]
-	// [EIP1H - Extended Interrupt Priority 1 High]$
-
-	// $[EIP1 - Extended Interrupt Priority 1 Low]
-	// [EIP1 - Extended Interrupt Priority 1 Low]$
-
-	// $[EIP2 - Extended Interrupt Priority 2]
-	// [EIP2 - Extended Interrupt Priority 2]$
-
-	// $[EIP2H - Extended Interrupt Priority 2 High]
-	// [EIP2H - Extended Interrupt Priority 2 High]$
 
 
-	P0MDIN |=0x4;
+	//P0.7 pin is configured for digital mode
+	P0MDIN |=0x80;
 
 	//INT1 input is active low, Select P0.7.
 	IT01CF = 0x70;

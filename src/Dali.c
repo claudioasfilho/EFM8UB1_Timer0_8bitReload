@@ -50,8 +50,9 @@
 bit MDone;
 bit MOutput;
 bit DaliStopFlag;
+bit DaliErrorFlag;
 
-
+DALIFLAGS DaliFlags;
 
 /*********************************************************************************
  *********************************************************************************
@@ -153,7 +154,11 @@ void ManchesterEncoder (uint8_t input)
 
 }
 
-
+/*********************************************************************************
+ *********************************************************************************
+ 	 	 	 	 	 Dali TX Related Functions
+ *********************************************************************************
+ *********************************************************************************/
 
 void DaliTxHandler()
 {
@@ -198,11 +203,6 @@ void DaliTxHandler()
 		}
 
 }
-/*********************************************************************************
- *********************************************************************************
- 	 	 	 	 	 Dali TX Related Functions
- *********************************************************************************
- *********************************************************************************/
 
 
 void ReloadDaliTxTimer(uint8_t reloadH, uint8_t reloadL)
@@ -357,8 +357,6 @@ void ReloadDaliRxTimer(uint8_t reloadH, uint8_t reloadL)
 void StartDaliRxTimer()
 {
 
-	TH1 = 0;
-	TL1 = 0;
 	TCON |= TCON_TR1__RUN;		//Enables Timer 1 Run
 }
 
@@ -408,6 +406,23 @@ uint8_t GetBusQuietCounter()
 {
 	return BusQuietCounter;
 }
+
+
+void SetDaliRxErrorFlag()
+{
+	DaliErrorFlag = 1;
+}
+
+void ClearDaliRxErrorFlag()
+{
+	DaliErrorFlag = 0;
+}
+
+bit GetDaliRxErrorFlag()
+{
+	return DaliErrorFlag;
+}
+
 
 
 void SetDaliInputPinPolarity (INTPOLARITY input)
