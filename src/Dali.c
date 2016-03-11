@@ -47,10 +47,10 @@
 
 
 
-bit MDone;
-bit MOutput;
-bit DaliStopFlag;
-bit DaliErrorFlag;
+//bit MDone;
+//bit MOutput;
+//bit DaliStopFlag;
+//bit DaliErrorFlag;
 
 DALIFLAGS DaliFlags;
 
@@ -65,34 +65,34 @@ DALIFLAGS DaliFlags;
 
 void SetBusyFlag()
 {
-	MDone=1;
+	DaliFlags.flag.Busy = 1;
 }
 
 void ClearBusyFlag()
 {
-	MDone=0;
+	DaliFlags.flag.Busy = 0;
 }
 
 bit GetBusyFlag()
 {
- return MDone;
+ return DaliFlags.flag.Busy;
 }
 
 /*Manchester Decoder Output Flag Getters and Setters*/
 
 void SetMDOutput()
 {
-	MOutput =1;
+	DaliFlags.flag.Output =1;
 }
 
 void ClearMDOutput()
 {
-	MOutput =0;
+	DaliFlags.flag.Output =0;
 }
 
 bit GetMDOutput()
 {
- return MOutput;
+ return DaliFlags.flag.Output;
 }
 SI_SBIT (LED2,SFR_P1, 4);			   //PB0 Switch Definition
 
@@ -119,28 +119,28 @@ void ManchesterEncoder (uint8_t input)
 
 							case 0: //SetBusyFlag();
 							break;
-							case 1: MOutput = Input.nybble.BB0;
+							case 1: DaliFlags.flag.Output = Input.nybble.BB0;
 							SetBusyFlag();
 							break;
-							case 2: MOutput = Input.nybble.BB1;
+							case 2: DaliFlags.flag.Output = Input.nybble.BB1;
 							SetBusyFlag();
 							break;
-							case 3: MOutput = Input.nybble.BB2;
+							case 3: DaliFlags.flag.Output = Input.nybble.BB2;
 							SetBusyFlag();
 							break;
-							case 4: MOutput = Input.nybble.BB3;
+							case 4: DaliFlags.flag.Output = Input.nybble.BB3;
 							SetBusyFlag();
 							break;
-							case 5: MOutput = Input.nybble.BB4;
+							case 5: DaliFlags.flag.Output = Input.nybble.BB4;
 							SetBusyFlag();
 							break;
-							case 6: MOutput = Input.nybble.BB5;
+							case 6: DaliFlags.flag.Output = Input.nybble.BB5;
 							SetBusyFlag();
 							break;
-							case 7: MOutput = Input.nybble.BB6;
+							case 7: DaliFlags.flag.Output = Input.nybble.BB6;
 							SetBusyFlag();
 							break;
-							case 8: MOutput = Input.nybble.BB7;
+							case 8: DaliFlags.flag.Output = Input.nybble.BB7;
 							SetBusyFlag();
 							break;
 				}
@@ -295,17 +295,17 @@ void DaliTXStateMachine(uint8_t address, uint8_t Ddata)
 
 void SetDaliStopFlag()
 {
-	DaliStopFlag =1;
+	DaliFlags.flag.Stop =1;
 }
 
 void ClearDaliStopFlag()
 {
-	DaliStopFlag =0;
+	DaliFlags.flag.Stop =0;
 }
 
 bit GetDaliStopFlag()
 {
- return DaliStopFlag;
+ return DaliFlags.flag.Stop;
 }
 
 
@@ -379,7 +379,7 @@ void QueryDaliBus()
 {
 	static counter=0;
 
-	if ((GetDaliIntputPin()==1) && (counter++==3))
+	if ((GetDaliIntputPin()==1) && (counter++==2))
 	{
 		counter=0;
 		if(GetBusQuietCounter()<=254) IncBusQuietCounter();
@@ -410,19 +410,18 @@ uint8_t GetBusQuietCounter()
 
 void SetDaliRxErrorFlag()
 {
-	DaliErrorFlag = 1;
+	DaliFlags.flag.Error = 1;
 }
 
 void ClearDaliRxErrorFlag()
 {
-	DaliErrorFlag = 0;
+	DaliFlags.flag.Error = 0;
 }
 
 bit GetDaliRxErrorFlag()
 {
-	return DaliErrorFlag;
+	return DaliFlags.flag.Error;
 }
-
 
 
 void SetDaliInputPinPolarity (INTPOLARITY input)

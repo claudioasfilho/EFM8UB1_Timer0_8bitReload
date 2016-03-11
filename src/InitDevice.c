@@ -230,9 +230,6 @@ extern void INTERRUPT_0_enter_DefaultMode_from_RESET(void) {
 	//INT1 input is active low, Select P0.7.
 	IT01CF = 0x70;
 
-/*
-	//INT1 input is active low, Select P0.3.
-	IT01CF = 0x30;*/
 
 	//INT1 is edge triggered
 	TCON|= 0x4;

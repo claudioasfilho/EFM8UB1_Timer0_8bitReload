@@ -65,7 +65,7 @@ typedef enum
 //-----------------------------------------------------------------------------
 // Pin Definitions
 //-----------------------------------------------------------------------------
-SI_SBIT (DISP_EN, SFR_P2, 3);          // Display Enable
+//SI_SBIT (DISP_EN, SFR_P2, 3);          // Display Enable
 
 SI_SBIT (PB0_SW,SFR_P0, 2);			   //PB0 Switch Definition
 SI_SBIT (DALI_OUT, SFR_P0, 0);		   //Dali Output Pin
@@ -115,6 +115,7 @@ void QueryDaliBus();
 void IncBusQuietCounter();
 void ClearBusQuietCounter();
 uint8_t GetBusQuietCounter();
+
 void SetDaliInputPinPolarity (INTPOLARITY input);
 void EnableInt1 ();
 void DisableInt1 ();

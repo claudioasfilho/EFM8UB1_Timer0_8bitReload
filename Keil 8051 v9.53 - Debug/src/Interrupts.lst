@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   INTERRUPTS                                                        03/07/2016 15:59:08 PAGE 1   
+C51 COMPILER V9.53.0.0   INTERRUPTS                                                        03/09/2016 10:40:37 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE INTERRUPTS
@@ -37,208 +37,260 @@ line level    source
   22          #define SYSCLK             3062000
   23          
   24          static xdata DALI_TXFRAME State = START;
-  25          static xdata uint8_t bitCounter = 0;
-  26          static xdata uint8_t daliRXOutput=0;
+  25          //static xdata uint8_t bitCounter = 0;
+  26          //static xdata uint8_t daliRXOutput=0;
   27          bit _1stHalf;
   28          bit _2ndHalf;
   29          
   30          SI_SBIT (LED2,SFR_P1, 4);                          //PB0 Switch Definition
   31          
-  32          //-----------------------------------------------------------------------------
-  33          // TIMER1_ISR
+  32          
+  33          
   34          //-----------------------------------------------------------------------------
-  35          //
-  36          // TIMER1 ISR Content goes here. Remember to clear flag bits:
-  37          // TCON::TF1 (Timer 0 Overflow Flag)
-  38          //
-  39          // Here we process the Timer dedicated to Dali RX
+  35          // INT1_ISR
+  36          //-----------------------------------------------------------------------------
+  37          //
+  38          // TIMER0 ISR Content goes here. Remember to clear flag bits:
+  39          // TCON::TF0 (Timer 0 Overflow Flag)
   40          //
-  41          //-----------------------------------------------------------------------------
-  42          SI_INTERRUPT (TIMER1_ISR, TIMER1_IRQn)
-  43          {
-  44   1      
-  45   1      
-  46   1      static xdata uint8_t counter = 0;
-  47   1      xdata uint8_t buffer[8];
-  48   1      xdata uint8_t BitBuffer[72];
-  49   1      static xdata uint8_t Bunter=0;
-  50   1      
-C51 COMPILER V9.53.0.0   INTERRUPTS                                                        03/07/2016 15:59:08 PAGE 2   
+  41          // Here we process the Timer0 interrupt and toggle the LED when appropriate
+  42          //
+  43          //-----------------------------------------------------------------------------
+  44          SI_INTERRUPT (INT1_ISR, INT1_IRQn)
+  45          {
+  46   1         static xdata uint8_t intcounter = 0;
+  47   1      
+  48   1         //if((GetDaliIntputPin()==0) &&(intcounter==0))
+  49   1              if((GetBusQuietCounter()>1)&&(GetDaliIntputPin()==0) &&(intcounter==0))
+  50   1              {
+C51 COMPILER V9.53.0.0   INTERRUPTS                                                        03/09/2016 10:40:37 PAGE 2   
 
-  51   1              ReloadDaliRxTimer(STMH, STML);
-  52   1      //      LED2^=1;
-  53   1      
-  54   1              switch (State)
-  55   1      
-  56   1                      {
-  57   2      
-  58   2                              case START:                     //In this state, it checks if the RX bus was quite and also if it receives the start bit
-  59   2                                              {
-  60   3                                                      break;
-  61   3                                              }
-  62   2      
-  63   2                              case DATA:
-  64   2                                              {
-  65   3      #if 0
-                                                              if(counter==0)
-                                                              {
-                                                                      LED2^=1;
-                                                                      _1stHalf=GetDaliIntputPin();
-                                                                      BitBuffer[Bunter++] = _1stHalf;
-              
-                                                              }
-              
-              
-                                                              if (counter++==1)
-                                                              {       LED2^=1;
-                                                                      _2ndHalf=GetDaliIntputPin();
-                                                                      BitBuffer[Bunter++] = _2ndHalf;
-              
-                                                                      if ((_1stHalf==0) && (_2ndHalf==1))                     // Logic 1 received
-                                                                      {
-                                                                              daliRXOutput = bitCounter<<1;
-                                                                      }
-                                                                      else if ((_1stHalf==1) && (_2ndHalf==0))        // Logic 0 received
-                                                                      {
-                                                                              daliRXOutput = bitCounter<<0;
-                                                                      }
-                                                                      else if (_1stHalf ==_2ndHalf)                           // Corrupted bit received
-                                                                      {
-                                                                              EnableInt1();
-                                                                              State = START;
-                                                                      }
-              
-                                                                      counter=0;
-                                                              }
-              #endif
-  97   3                                                      //buffer[bitCounter] = daliRXOutput;
-  98   3                                                      LED2^=1;
-  99   3                                                      BitBuffer[Bunter++] = GetDaliIntputPin();
- 100   3                                                      //if (bitCounter--==0)                                                  //Last bit was received
- 101   3                                                      if (Bunter==72)
- 102   3                                                      {
- 103   4                                                              Bunter=0;
- 104   4                                                              EnableInt1();
- 105   4                                                              State = START;
- 106   4                                                      }
- 107   3      
- 108   3                                                      break;
- 109   3                                              }
- 110   2      
- 111   2                      }
- 112   1      
+  51   2      
+  52   2                      _1stHalf=GetDaliIntputPin();
+  53   2                      SetDaliInputPinPolarity(ACTIVE_HIGH);
+  54   2      
+  55   2              }
+  56   1      
+  57   1              if ((intcounter++==1))
+  58   1              {
+  59   2                      _2ndHalf=GetDaliIntputPin();
+  60   2                      SetDaliInputPinPolarity(ACTIVE_LOW);
+  61   2      
+  62   2                      if ((_1stHalf==0) && (_2ndHalf==1))// && (GetDaliRxErrorFlag()==0))                     // Start bit received
+  63   2                              {
+  64   3                                      DisableInt1 ();
+  65   3                                      StopDaliRxTimer();
+  66   3      
+  67   3                                      //It will reload a one period worth of time, so it will start sampling on the next bit
+  68   3                                      ReloadDaliRxTimer(TMH, TML);
+  69   3                                      EnableDaliRxTimerInt();
+  70   3                                      StartDaliRxTimer();
+  71   3                                      State = DATA;
+  72   3      
+  73   3                              }
+  74   2                      intcounter=0;
+  75   2                      _1stHalf = _2ndHalf =0;
+  76   2              }
+  77   1      
+  78   1      
+  79   1      }
+  80          
+  81          
+  82          //-----------------------------------------------------------------------------
+  83          // TIMER1_ISR
+  84          //-----------------------------------------------------------------------------
+  85          //
+  86          // TIMER1 ISR Content goes here. Remember to clear flag bits:
+  87          // TCON::TF1 (Timer 0 Overflow Flag)
+  88          //
+  89          // Here we process the Timer dedicated to Dali RX
+  90          //
+  91          //-----------------------------------------------------------------------------
+  92          SI_INTERRUPT (TIMER1_ISR, TIMER1_IRQn)
+  93          {
+  94   1      
+  95   1      
+  96   1      static xdata uint8_t sampleCounter = 0;
+  97   1      static xdata uint8_t bitsCounter = 7;
+  98   1      xdata uint8_t buffer[8];
+  99   1      xdata uint8_t BitBuffer[72];
+ 100   1      bit input;
+ 101   1      bit outputbit;
+ 102   1      xdata BITS_BYTE sample;
+ 103   1      xdata BITS_BYTE DataOutput;
+ 104   1      
+ 105   1      static xdata uint8_t Bunter=0;
+ 106   1      
+ 107   1              ReloadDaliRxTimer(STMH, STML);
+ 108   1              //input = GetDaliIntputPin();
+ 109   1      
+ 110   1      
+ 111   1              //This state machine makes sure the Rx handler is in the right State
+ 112   1              switch (State)
  113   1      
-C51 COMPILER V9.53.0.0   INTERRUPTS                                                        03/07/2016 15:59:08 PAGE 3   
+C51 COMPILER V9.53.0.0   INTERRUPTS                                                        03/09/2016 10:40:37 PAGE 3   
 
- 114   1      }
-*** WARNING C280 IN LINE 46 OF C:\Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\src\Inte
-             -rrupts.c: 'counter': unreferenced local variable
-*** WARNING C280 IN LINE 47 OF C:\Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\src\Inte
+ 114   1                      {
+ 115   2      
+ 116   2                              case START:                     //In this state, it checks if the RX bus was quite and also if it receives the start bit
+ 117   2                                              {
+ 118   3                                                      break;
+ 119   3                                              }
+ 120   2      
+ 121   2                              case DATA:
+ 122   2                                              {
+ 123   3      /*                                              //This state machine counts samples and store them to the sample struct
+ 124   3                                                      switch (sampleCounter++)
+ 125   3                                                      {
+ 126   3                                                      //Reading the First Half of the bit, 1st interaction
+ 127   3                                                              case 0:
+ 128   3                                                                              {
+ 129   3                                                                                      sample.nybble.BB0 = input;
+ 130   3                                                                                      break;
+ 131   3                                                                              }
+ 132   3                                                      //Reading the First Half of the bit, 2nd interaction
+ 133   3                                                              case 1:
+ 134   3                                                                              {
+ 135   3                                                                                      sample.nybble.BB1 = input;
+ 136   3                                                                                      break;
+ 137   3                                                                              }
+ 138   3                                                      //Reading the Second Half of the bit, 1st interaction
+ 139   3                                                              case 2:
+ 140   3                                                                              {
+ 141   3                                                                                      sample.nybble.BB4 = input;
+ 142   3                                                                                      break;
+ 143   3                                                                              }
+ 144   3                                                      //Reading the Second Half of the bit, 2nd interaction
+ 145   3                                                              case 3:
+ 146   3                                                                              {
+ 147   3                                                                                      sample.nybble.BB5 = input;
+ 148   3      
+ 149   3                                                                                      // Logic 1 received
+ 150   3                                                                                      if (sample.Abyte==0x30) outputbit =1;
+ 151   3                                                                                      // Logic 0 received
+ 152   3                                                                                      else if (sample.Abyte==0x03) outputbit =0;
+ 153   3      
+ 154   3                                                                                      //This state machine places the bit in the right bit location on the DataOutput Structure
+ 155   3                                                                                      switch (bitsCounter--)
+ 156   3                                                                                      {
+ 157   3                                                                                              case 0:
+ 158   3                                                                                                              {
+ 159   3                                                                                                                      DataOutput.nybble.BB0 = outputbit;
+ 160   3                                                                                                                      bitsCounter=8;
+ 161   3                                                                                                                      break;
+ 162   3                                                                                                              }
+ 163   3                                                                                              case 1:
+ 164   3                                                                                                              {
+ 165   3                                                                                                                      DataOutput.nybble.BB1 = outputbit;
+ 166   3                                                                                                                      break;
+ 167   3                                                                                                              }
+ 168   3                                                                                              case 2:
+ 169   3                                                                                                              {
+ 170   3                                                                                                                      DataOutput.nybble.BB2 = outputbit;
+ 171   3                                                                                                                      break;
+ 172   3                                                                                                              }
+ 173   3                                                                                              case 3:
+ 174   3                                                                                                              {
+ 175   3                                                                                                                      DataOutput.nybble.BB3 = outputbit;
+ 176   3                                                                                                                      break;
+C51 COMPILER V9.53.0.0   INTERRUPTS                                                        03/09/2016 10:40:37 PAGE 4   
+
+ 177   3                                                                                                              }
+ 178   3                                                                                              case 4:
+ 179   3                                                                                                              {
+ 180   3                                                                                                                      DataOutput.nybble.BB4 = outputbit;
+ 181   3                                                                                                                      break;
+ 182   3                                                                                                              }
+ 183   3                                                                                              case 5:
+ 184   3                                                                                                              {
+ 185   3                                                                                                                      DataOutput.nybble.BB5 = outputbit;
+ 186   3                                                                                                                      break;
+ 187   3                                                                                                              }
+ 188   3                                                                                              case 6:
+ 189   3                                                                                                              {
+ 190   3                                                                                                                      DataOutput.nybble.BB6 = outputbit;
+ 191   3                                                                                                                      break;
+ 192   3                                                                                                              }
+ 193   3                                                                                              case 7:
+ 194   3                                                                                                              {
+ 195   3                                                                                                                      DataOutput.nybble.BB7 = outputbit;
+ 196   3                                                                                                                      break;
+ 197   3                                                                                                              }
+ 198   3                                                                                      }
+ 199   3      
+ 200   3      
+ 201   3      
+ 202   3                                                                                      break;
+ 203   3                                                                              }
+ 204   3      
+ 205   3                                                      }//End of switch (sampleCounter++)
+ 206   3      
+ 207   3      */                                              LED2^=1;
+ 208   3                                                      BitBuffer[Bunter++] = GetDaliIntputPin();
+ 209   3                                                      if (Bunter==72)
+ 210   3                                                      {
+ 211   4                                                              Bunter=0;
+ 212   4                                                              DisableDaliRxTimerInt();
+ 213   4                                                              SetDaliInputPinPolarity(ACTIVE_LOW);
+ 214   4                                                              EnableInt1();
+ 215   4                                                              State = START;
+ 216   4                                                      }
+ 217   3      
+ 218   3                                                      break;
+ 219   3                                              }//End of case DATA:
+ 220   2      
+ 221   2                      }//End of Switch State:
+ 222   1      
+ 223   1      
+ 224   1      }
+*** WARNING C280 IN LINE 96 OF C:\Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\src\Inte
+             -rrupts.c: 'sampleCounter': unreferenced local variable
+*** WARNING C280 IN LINE 97 OF C:\Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\src\Inte
+             -rrupts.c: 'bitsCounter': unreferenced local variable
+*** WARNING C280 IN LINE 98 OF C:\Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\src\Inte
              -rrupts.c: 'buffer': unreferenced local variable
- 115          
- 116          
- 117          //-----------------------------------------------------------------------------
- 118          // TIMER0_ISR
- 119          //-----------------------------------------------------------------------------
- 120          //
- 121          // TIMER0 ISR Content goes here. Remember to clear flag bits:
- 122          // TCON::TF0 (Timer 0 Overflow Flag)
- 123          //
- 124          // Here we process the Timer0 interrupt and toggle the LED when appropriate
- 125          //
- 126          //-----------------------------------------------------------------------------
- 127          SI_INTERRUPT (TIMER0_ISR, TIMER0_IRQn)
- 128          {
- 129   1      
- 130   1              ReloadDaliTxTimer(TMH, TML);
- 131   1              DaliTxHandler();
- 132   1              QueryDaliBus();
- 133   1      
- 134   1      }
- 135          
- 136          
- 137          
- 138          //-----------------------------------------------------------------------------
- 139          // INT1_ISR
- 140          //-----------------------------------------------------------------------------
- 141          //
- 142          // TIMER0 ISR Content goes here. Remember to clear flag bits:
- 143          // TCON::TF0 (Timer 0 Overflow Flag)
- 144          //
- 145          // Here we process the Timer0 interrupt and toggle the LED when appropriate
- 146          //
- 147          //-----------------------------------------------------------------------------
- 148          SI_INTERRUPT (INT1_ISR, INT1_IRQn)
- 149          {
- 150   1         static xdata uint8_t counter = 0;
- 151   1      
- 152   1      
- 153   1         xdata uint16_t timerRead;
- 154   1      
- 155   1         timerRead = GetDaliRxTimer();
- 156   1      
- 157   1              if((GetBusQuietCounter()>3)&&(GetDaliIntputPin()==0) &&(counter==0))
- 158   1              {
- 159   2                      DisableDaliRxTimerInt();
- 160   2                      ReloadDaliRxTimer(0,0);
- 161   2                      StartDaliRxTimer();
- 162   2                      _1stHalf=GetDaliIntputPin();
- 163   2                      SetDaliInputPinPolarity(ACTIVE_HIGH);
- 164   2              }
- 165   1      
- 166   1      
- 167   1              if ((counter++==1) && (timerRead>200)&&(timerRead<230))
- 168   1              {
- 169   2      
- 170   2                      _2ndHalf=GetDaliIntputPin();
- 171   2                      SetDaliInputPinPolarity(ACTIVE_LOW);
- 172   2      
-C51 COMPILER V9.53.0.0   INTERRUPTS                                                        03/07/2016 15:59:08 PAGE 4   
+*** WARNING C280 IN LINE 100 OF C:\Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\src\Int
+             -errupts.c: 'input': unreferenced local variable
+*** WARNING C280 IN LINE 101 OF C:\Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\src\Int
+             -errupts.c: 'outputbit': unreferenced local variable
+*** WARNING C280 IN LINE 102 OF C:\Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\src\Int
+             -errupts.c: 'sample': unreferenced local variable
+*** WARNING C280 IN LINE 103 OF C:\Users\clfilho\Dropbox (Silicon Labs)\Code_Workspace\EFM8UB1_Timer0_8bitReload\src\Int
+             -errupts.c: 'DataOutput': unreferenced local variable
+ 225          
+C51 COMPILER V9.53.0.0   INTERRUPTS                                                        03/09/2016 10:40:37 PAGE 5   
 
- 173   2              }
- 174   1      
- 175   1              else
- 176   1              {
- 177   2                      SetDaliInputPinPolarity(ACTIVE_LOW);
- 178   2              }
- 179   1      
- 180   1      
- 181   1      
- 182   1              if ((_1stHalf==0) && (_2ndHalf==1))                     // Start bit received
- 183   1              {
- 184   2                      DisableInt1 ();
- 185   2                      StopDaliRxTimer();
- 186   2      
- 187   2                      //It will reload a one period worth of time, so it will start sampling on the next bit
- 188   2                      ReloadDaliRxTimer(TMH, TML);
- 189   2                      StartDaliRxTimer();
- 190   2                      EnableDaliRxTimerInt();
- 191   2                      bitCounter=7;
- 192   2                      daliRXOutput=0;
- 193   2                      State = DATA;
- 194   2                      counter=0;
- 195   2                      _1stHalf = _2ndHalf =0;
- 196   2                      //
- 197   2      
- 198   2              }
- 199   1              else if (counter==2)
- 200   1              {
- 201   2                      counter=0;
- 202   2                      _1stHalf = _2ndHalf =0;
- 203   2              }
- 204   1      
- 205   1      
- 206   1      }
+ 226          
+ 227          //-----------------------------------------------------------------------------
+ 228          // Dali TX Timer ISR (TIMER0)
+ 229          //-----------------------------------------------------------------------------
+ 230          //
+ 231          // TIMER0 ISR Content goes here. Remember to clear flag bits:
+ 232          // TCON::TF0 (Timer 0 Overflow Flag)
+ 233          //
+ 234          // Here we process the Timer0 interrupt and toggle the LED when appropriate
+ 235          //
+ 236          //-----------------------------------------------------------------------------
+ 237          SI_INTERRUPT (TIMER0_ISR, TIMER0_IRQn)
+ 238          {
+ 239   1      
+ 240   1              ReloadDaliTxTimer(TMH, TML);
+ 241   1              DaliTxHandler();
+ 242   1              QueryDaliBus();
+ 243   1      
+ 244   1      }
+ 245          
+ 246          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    410    ----
+   CODE SIZE        =    352    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =      6      82
+   XDATA SIZE       =      5      82
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-   BIT SIZE         =      2    ----
+   BIT SIZE         =      2       2
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----
    XDATA CONST SIZE =   ----    ----
@@ -246,4 +298,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  7 WARNING(S),  0 ERROR(S)

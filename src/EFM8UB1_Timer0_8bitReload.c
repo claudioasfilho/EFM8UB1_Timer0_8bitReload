@@ -62,15 +62,16 @@ void main (void)
 	uint16_t fcounter;
    enter_DefaultMode_from_RESET();
 
-   DISP_EN = DISP_BC_DRIVEN;           		// EFM8 does not drive display
+  // DISP_EN = DISP_BC_DRIVEN;           		// EFM8 does not drive display
 
    IE_EA = 1;                          		// Enable global interrupts
    PRTDRV |=0x1;							//Enable high drive strength on P0
+
    SetDaliInputPinPolarity(ACTIVE_LOW);
 
 
    while (1) {
-	   DALI_OUT=1;
+//	   DALI_OUT=1;
 	   if (PB0_SW==0) {
 		  // ManchesterEncoder(0xf0);
 		  DaliTXStateMachine(0xff, 0x00);

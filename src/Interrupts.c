@@ -23,7 +23,7 @@
 
 static xdata DALI_TXFRAME State = START;
 //static xdata uint8_t bitCounter = 0;
-static xdata uint8_t daliRXOutput=0;
+//static xdata uint8_t daliRXOutput=0;
 bit _1stHalf;
 bit _2ndHalf;
 
@@ -45,88 +45,36 @@ SI_INTERRUPT (INT1_ISR, INT1_IRQn)
 {
    static xdata uint8_t intcounter = 0;
 
-   //Clear int Flag
-  // TCON =0;// &=0xEF;
-
-  // xdata uint16_t timerRead;
-
-  // timerRead = GetDaliRxTimer();
-
-	LED2^=1;
-
-   if((GetDaliIntputPin()==0) &&(intcounter==0))
-	//if((GetBusQuietCounter()>3)&&(GetDaliIntputPin()==0) &&(intcounter==0))
+   //if((GetDaliIntputPin()==0) &&(intcounter==0))
+ 	if((GetBusQuietCounter()>1)&&(GetDaliIntputPin()==0) &&(intcounter==0))
 	{
 
 		_1stHalf=GetDaliIntputPin();
-		//IT01CF = 0xF0;
 		SetDaliInputPinPolarity(ACTIVE_HIGH);
-		//EnableInt1();
+
 	}
 
-	if ((intcounter++==1)) //&& (timerRead>196)&&(timerRead<238))
+	if ((intcounter++==1))
 	{
 		_2ndHalf=GetDaliIntputPin();
 		SetDaliInputPinPolarity(ACTIVE_LOW);
-		intcounter = 0;
 
-	}
+		if ((_1stHalf==0) && (_2ndHalf==1))// && (GetDaliRxErrorFlag()==0))			// Start bit received
+			{
+				DisableInt1 ();
+				StopDaliRxTimer();
 
+				//It will reload a one period worth of time, so it will start sampling on the next bit
+				ReloadDaliRxTimer(TMH, TML);
+				EnableDaliRxTimerInt();
+				StartDaliRxTimer();
+				State = DATA;
 
-/*
-   if((GetDaliIntputPin()==0) &&(intcounter==0))
-	//if((GetBusQuietCounter()>3)&&(GetDaliIntputPin()==0) &&(intcounter==0))
-	{
-		LED2^=1;
-		//DisableInt1 ();
-	//	DisableDaliRxTimerInt();
-	//	ReloadDaliRxTimer(0,0);
-	//	StartDaliRxTimer();
-		_1stHalf=GetDaliIntputPin();
-		//IT01CF = 0xF0;
-		SetDaliInputPinPolarity(ACTIVE_HIGH);
-		//EnableInt1();
-	}
-
-
-	if ((intcounter++==1)) //&& (timerRead>196)&&(timerRead<238))
-	{
-	//	LED2^=1;
-		_2ndHalf=GetDaliIntputPin();
-		SetDaliInputPinPolarity(ACTIVE_LOW);
-
-	}
-
-	else
-	{
-		//SetDaliRxErrorFlag();
-		SetDaliInputPinPolarity(ACTIVE_LOW);
-	}
-
-
-
-	if ((_1stHalf==0) && (_2ndHalf==1))// && (GetDaliRxErrorFlag()==0))			// Start bit received
-	{
-		DisableInt1 ();
-		StopDaliRxTimer();
-
-		//It will reload a one period worth of time, so it will start sampling on the next bit
-		ReloadDaliRxTimer(TMH, TML);
-		EnableDaliRxTimerInt();
-		StartDaliRxTimer();
-		daliRXOutput=0;
-		State = DATA;
-		intcounter=0;
-		_1stHalf = _2ndHalf =0;
-		//
-
-	}
-	else if (intcounter==2)
-	{
+			}
 		intcounter=0;
 		_1stHalf = _2ndHalf =0;
 	}
-*/
+
 
 }
 
@@ -144,7 +92,7 @@ SI_INTERRUPT (INT1_ISR, INT1_IRQn)
 SI_INTERRUPT (TIMER1_ISR, TIMER1_IRQn)
 {
 
-#if 0
+
 static xdata uint8_t sampleCounter = 0;
 static xdata uint8_t bitsCounter = 7;
 xdata uint8_t buffer[8];
@@ -256,11 +204,13 @@ static xdata uint8_t Bunter=0;
 
 						}//End of switch (sampleCounter++)
 
-*/			//			LED2^=1;
+*/						LED2^=1;
 						BitBuffer[Bunter++] = GetDaliIntputPin();
 						if (Bunter==72)
 						{
 							Bunter=0;
+							DisableDaliRxTimerInt();
+							SetDaliInputPinPolarity(ACTIVE_LOW);
 							EnableInt1();
 							State = START;
 						}
@@ -269,7 +219,7 @@ static xdata uint8_t Bunter=0;
 					}//End of case DATA:
 
 		}//End of Switch State:
-#endif
+
 
 }
 

@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 15:59:07 PAGE 1   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/09/2016 10:25:22 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE EFM8UB1_TIMER0_8BITRELOAD
@@ -63,7 +63,7 @@ line level    source
   48          //-----------------------------------------------------------------------------
   49          // Pin Definitions
   50          //-----------------------------------------------------------------------------
-C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/07/2016 15:59:07 PAGE 2   
+C51 COMPILER V9.53.0.0   EFM8UB1_TIMER0_8BITRELOAD                                         03/09/2016 10:25:22 PAGE 2   
 
   51          
   52          #define DISP_BC_DRIVEN   0             // 0 = Board Controller drives display
@@ -79,29 +79,30 @@ line level    source
   62   1              uint16_t fcounter;
   63   1         enter_DefaultMode_from_RESET();
   64   1      
-  65   1         DISP_EN = DISP_BC_DRIVEN;                    // EFM8 does not drive display
+  65   1        // DISP_EN = DISP_BC_DRIVEN;                          // EFM8 does not drive display
   66   1      
   67   1         IE_EA = 1;                                   // Enable global interrupts
   68   1         PRTDRV |=0x1;                                                        //Enable high drive strength on P0
-  69   1         SetDaliInputPinPolarity(ACTIVE_LOW);
-  70   1      
+  69   1      
+  70   1         SetDaliInputPinPolarity(ACTIVE_LOW);
   71   1      
-  72   1         while (1) {
-  73   2                 DALI_OUT=1;
-  74   2                 if (PB0_SW==0) {
-  75   3                        // ManchesterEncoder(0xf0);
-  76   3                        DaliTXStateMachine(0xff, 0x00);
-  77   3                         for(fcounter=0; fcounter<0xfff; fcounter++);
-  78   3                 }
-  79   2      
-  80   2         }
-  81   1      
+  72   1      
+  73   1         while (1) {
+  74   2      //         DALI_OUT=1;
+  75   2                 if (PB0_SW==0) {
+  76   3                        // ManchesterEncoder(0xf0);
+  77   3                        DaliTXStateMachine(0xff, 0x00);
+  78   3                         for(fcounter=0; fcounter<0xfff; fcounter++);
+  79   3                 }
+  80   2      
+  81   2         }
   82   1      
-  83   1      }
+  83   1      
+  84   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     56    ----
+   CODE SIZE        =     52    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

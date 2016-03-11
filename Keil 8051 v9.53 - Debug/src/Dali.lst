@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 15:59:06 PAGE 1   
+C51 COMPILER V9.53.0.0   DALI                                                              03/09/2016 10:41:36 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE DALI
@@ -62,12 +62,12 @@ line level    source
   47          
   48          
   49          
-  50          bit MDone;
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 15:59:06 PAGE 2   
+  50          //bit MDone;
+C51 COMPILER V9.53.0.0   DALI                                                              03/09/2016 10:41:36 PAGE 2   
 
-  51          bit MOutput;
-  52          bit DaliStopFlag;
-  53          bit DaliErrorFlag;
+  51          //bit MOutput;
+  52          //bit DaliStopFlag;
+  53          //bit DaliErrorFlag;
   54          
   55          DALIFLAGS DaliFlags;
   56          
@@ -82,34 +82,34 @@ line level    source
   65          
   66          void SetBusyFlag()
   67          {
-  68   1              MDone=1;
+  68   1              DaliFlags.flag.Busy = 1;
   69   1      }
   70          
   71          void ClearBusyFlag()
   72          {
-  73   1              MDone=0;
+  73   1              DaliFlags.flag.Busy = 0;
   74   1      }
   75          
   76          bit GetBusyFlag()
   77          {
-  78   1       return MDone;
+  78   1       return DaliFlags.flag.Busy;
   79   1      }
   80          
   81          /*Manchester Decoder Output Flag Getters and Setters*/
   82          
   83          void SetMDOutput()
   84          {
-  85   1              MOutput =1;
+  85   1              DaliFlags.flag.Output =1;
   86   1      }
   87          
   88          void ClearMDOutput()
   89          {
-  90   1              MOutput =0;
+  90   1              DaliFlags.flag.Output =0;
   91   1      }
   92          
   93          bit GetMDOutput()
   94          {
-  95   1       return MOutput;
+  95   1       return DaliFlags.flag.Output;
   96   1      }
   97          SI_SBIT (LED2,SFR_P1, 4);                          //PB0 Switch Definition
   98          
@@ -128,7 +128,7 @@ line level    source
  110   2              }
  111   1      
  112   1              while (counter>=0)
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 15:59:06 PAGE 3   
+C51 COMPILER V9.53.0.0   DALI                                                              03/09/2016 10:41:36 PAGE 3   
 
  113   1              {
  114   2                      while(GetBusyFlag()==1);
@@ -139,28 +139,28 @@ line level    source
  119   4      
  120   4                                                              case 0: //SetBusyFlag();
  121   4                                                              break;
- 122   4                                                              case 1: MOutput = Input.nybble.BB0;
+ 122   4                                                              case 1: DaliFlags.flag.Output = Input.nybble.BB0;
  123   4                                                              SetBusyFlag();
  124   4                                                              break;
- 125   4                                                              case 2: MOutput = Input.nybble.BB1;
+ 125   4                                                              case 2: DaliFlags.flag.Output = Input.nybble.BB1;
  126   4                                                              SetBusyFlag();
  127   4                                                              break;
- 128   4                                                              case 3: MOutput = Input.nybble.BB2;
+ 128   4                                                              case 3: DaliFlags.flag.Output = Input.nybble.BB2;
  129   4                                                              SetBusyFlag();
  130   4                                                              break;
- 131   4                                                              case 4: MOutput = Input.nybble.BB3;
+ 131   4                                                              case 4: DaliFlags.flag.Output = Input.nybble.BB3;
  132   4                                                              SetBusyFlag();
  133   4                                                              break;
- 134   4                                                              case 5: MOutput = Input.nybble.BB4;
+ 134   4                                                              case 5: DaliFlags.flag.Output = Input.nybble.BB4;
  135   4                                                              SetBusyFlag();
  136   4                                                              break;
- 137   4                                                              case 6: MOutput = Input.nybble.BB5;
+ 137   4                                                              case 6: DaliFlags.flag.Output = Input.nybble.BB5;
  138   4                                                              SetBusyFlag();
  139   4                                                              break;
- 140   4                                                              case 7: MOutput = Input.nybble.BB6;
+ 140   4                                                              case 7: DaliFlags.flag.Output = Input.nybble.BB6;
  141   4                                                              SetBusyFlag();
  142   4                                                              break;
- 143   4                                                              case 8: MOutput = Input.nybble.BB7;
+ 143   4                                                              case 8: DaliFlags.flag.Output = Input.nybble.BB7;
  144   4                                                              SetBusyFlag();
  145   4                                                              break;
  146   4                                      }
@@ -193,7 +193,7 @@ line level    source
  173   2                      {
  174   3      
  175   3                              //The next lines implement the two steps of the Manchester Decoding
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 15:59:06 PAGE 4   
+C51 COMPILER V9.53.0.0   DALI                                                              03/09/2016 10:41:36 PAGE 4   
 
  176   3                              if (counter==0)                                 //Process First Part of the Byte
  177   3                              {
@@ -258,7 +258,7 @@ line level    source
  236          
  237          void DaliFrameStart()
  238          {
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 15:59:06 PAGE 5   
+C51 COMPILER V9.53.0.0   DALI                                                              03/09/2016 10:41:36 PAGE 5   
 
  239   1              ClearBusyFlag();                                //Clear Flag that indicates the Manchester Decoder is Busy on the Interrupt
  240   1              SetMDOutput();
@@ -319,19 +319,19 @@ line level    source
  295          
  296          void SetDaliStopFlag()
  297          {
- 298   1              DaliStopFlag =1;
+ 298   1              DaliFlags.flag.Stop =1;
  299   1      }
  300          
  301          void ClearDaliStopFlag()
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 15:59:06 PAGE 6   
+C51 COMPILER V9.53.0.0   DALI                                                              03/09/2016 10:41:36 PAGE 6   
 
  302          {
- 303   1              DaliStopFlag =0;
+ 303   1              DaliFlags.flag.Stop =0;
  304   1      }
  305          
  306          bit GetDaliStopFlag()
  307          {
- 308   1       return DaliStopFlag;
+ 308   1       return DaliFlags.flag.Stop;
  309   1      }
  310          
  311          
@@ -388,7 +388,7 @@ line level    source
  362          
  363          
  364          uint16_t GetDaliRxTimer()
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 15:59:06 PAGE 7   
+C51 COMPILER V9.53.0.0   DALI                                                              03/09/2016 10:41:36 PAGE 7   
 
  365          {
  366   1              return TH1|TL1;
@@ -407,7 +407,7 @@ line level    source
  379          {
  380   1              static counter=0;
  381   1      
- 382   1              if ((GetDaliIntputPin()==1) && (counter++==3))
+ 382   1              if ((GetDaliIntputPin()==1) && (counter++==2))
  383   1              {
  384   2                      counter=0;
  385   2                      if(GetBusQuietCounter()<=254) IncBusQuietCounter();
@@ -438,50 +438,49 @@ line level    source
  410          
  411          void SetDaliRxErrorFlag()
  412          {
- 413   1              DaliErrorFlag = 1;
+ 413   1              DaliFlags.flag.Error = 1;
  414   1      }
  415          
  416          void ClearDaliRxErrorFlag()
  417          {
- 418   1              DaliErrorFlag = 0;
+ 418   1              DaliFlags.flag.Error = 0;
  419   1      }
  420          
  421          bit GetDaliRxErrorFlag()
  422          {
- 423   1              return DaliErrorFlag;
+ 423   1              return DaliFlags.flag.Error;
  424   1      }
  425          
  426          
- 427          
-C51 COMPILER V9.53.0.0   DALI                                                              03/07/2016 15:59:06 PAGE 8   
+ 427          void SetDaliInputPinPolarity (INTPOLARITY input)
+C51 COMPILER V9.53.0.0   DALI                                                              03/09/2016 10:41:36 PAGE 8   
 
- 428          void SetDaliInputPinPolarity (INTPOLARITY input)
- 429          {
- 430   1              if (input==ACTIVE_HIGH) IT01CF |= 0x80;
- 431   1              else IT01CF &=0x7f;
- 432   1      }
+ 428          {
+ 429   1              if (input==ACTIVE_HIGH) IT01CF |= 0x80;
+ 430   1              else IT01CF &=0x7f;
+ 431   1      }
+ 432          
  433          
- 434          
- 435          void EnableInt1 ()
- 436          {
- 437   1              IE |= 0x4;
- 438   1      }
- 439          
- 440          void DisableInt1 ()
- 441          {
- 442   1              IE &= 0xfb;
- 443   1      }
- 444          
+ 434          void EnableInt1 ()
+ 435          {
+ 436   1              IE |= 0x4;
+ 437   1      }
+ 438          
+ 439          void DisableInt1 ()
+ 440          {
+ 441   1              IE &= 0xfb;
+ 442   1      }
+ 443          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    519    ----
+   CODE SIZE        =    555    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =      8       2
    IDATA SIZE       =   ----    ----
-   BIT SIZE         =      4    ----
+   BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----
    XDATA CONST SIZE =   ----    ----
